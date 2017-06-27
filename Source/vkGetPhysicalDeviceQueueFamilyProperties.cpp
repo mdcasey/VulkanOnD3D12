@@ -19,4 +19,16 @@ VKAPI_ATTR void VKAPI_CALL vkGetPhysicalDeviceQueueFamilyProperties(
     uint32_t*                pQueueFamilyPropertyCount,
     VkQueueFamilyProperties* pQueueFamilyProperties)
 {
+    if (pQueueFamilyProperties)
+    {
+        VkQueueFamilyProperties queueFamilyProperties = {};
+        queueFamilyProperties.queueFlags;
+        queueFamilyProperties.queueCount;
+        queueFamilyProperties.timestampValidBits;
+        queueFamilyProperties.minImageTransferGranularity;
+
+        pQueueFamilyProperties[0] = queueFamilyProperties;
+    }
+
+    *pQueueFamilyPropertyCount = 1;
 }

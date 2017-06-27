@@ -18,4 +18,62 @@ VKAPI_ATTR void VKAPI_CALL vkGetPhysicalDeviceFeatures(
     VkPhysicalDevice          physicalDevice,
     VkPhysicalDeviceFeatures* pFeatures)
 {
+    VkPhysicalDeviceFeatures features = {};
+    features.robustBufferAccess;
+    features.fullDrawIndexUint32;
+    features.imageCubeArray;
+    features.independentBlend;
+    features.geometryShader     = VK_TRUE;
+    features.tessellationShader = VK_TRUE;
+    features.sampleRateShading;
+    features.dualSrcBlend;
+    features.logicOp;
+    features.multiDrawIndirect;
+    features.drawIndirectFirstInstance;
+    features.depthClamp;
+    features.depthBiasClamp;
+    features.fillModeNonSolid;
+    features.depthBounds;
+    features.wideLines;
+    features.largePoints;
+    features.alphaToOne;
+    features.multiViewport;
+    features.samplerAnisotropy;
+    features.textureCompressionETC2     = VK_FALSE;
+    features.textureCompressionASTC_LDR = VK_FALSE;
+    features.textureCompressionBC       = VK_TRUE;
+    features.occlusionQueryPrecise;
+    features.pipelineStatisticsQuery;
+    features.vertexPipelineStoresAndAtomics;
+    features.fragmentStoresAndAtomics;
+    features.shaderTessellationAndGeometryPointSize;
+    features.shaderImageGatherExtended;
+    features.shaderStorageImageExtendedFormats;
+    features.shaderStorageImageMultisample;
+    features.shaderStorageImageReadWithoutFormat;
+    features.shaderStorageImageWriteWithoutFormat;
+    features.shaderUniformBufferArrayDynamicIndexing;
+    features.shaderSampledImageArrayDynamicIndexing;
+    features.shaderStorageBufferArrayDynamicIndexing;
+    features.shaderStorageImageArrayDynamicIndexing;
+    features.shaderClipDistance;
+    features.shaderCullDistance;
+    features.shaderFloat64 = VK_TRUE;
+    features.shaderInt64   = VK_FALSE;
+    features.shaderInt16   = VK_FALSE;
+    features.shaderResourceResidency;
+    features.shaderResourceMinLod;
+    features.sparseBinding;
+    features.sparseResidencyBuffer;
+    features.sparseResidencyImage2D;
+    features.sparseResidencyImage3D;
+    features.sparseResidency2Samples;
+    features.sparseResidency4Samples;
+    features.sparseResidency8Samples;
+    features.sparseResidency16Samples;
+    features.sparseResidencyAliased;
+    features.variableMultisampleRate;
+    features.inheritedQueries;
+
+    *pFeatures = features;
 }

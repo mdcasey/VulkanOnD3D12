@@ -18,4 +18,13 @@ VKAPI_ATTR void VKAPI_CALL vkGetPhysicalDeviceMemoryProperties(
     VkPhysicalDevice                  physicalDevice,
     VkPhysicalDeviceMemoryProperties* pMemoryProperties)
 {
+    VkPhysicalDeviceMemoryProperties memoryProperties = {};
+    memoryProperties.memoryTypeCount;
+    memoryProperties.memoryTypes[0].propertyFlags;
+    memoryProperties.memoryTypes[0].heapIndex;
+    memoryProperties.memoryHeapCount;
+    memoryProperties.memoryHeaps[0].size;
+    memoryProperties.memoryHeaps[0].flags;
+
+    *pMemoryProperties = memoryProperties;
 }

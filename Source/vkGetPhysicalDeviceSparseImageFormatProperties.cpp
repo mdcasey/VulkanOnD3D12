@@ -24,4 +24,10 @@ VKAPI_ATTR void VKAPI_CALL vkGetPhysicalDeviceSparseImageFormatProperties(
     uint32_t*                      pPropertyCount,
     VkSparseImageFormatProperties* pProperties)
 {
+    VkSparseImageFormatProperties properties = {};
+    properties.aspectMask;
+    properties.imageGranularity;
+    properties.flags;
+
+    *pProperties = properties;
 }
