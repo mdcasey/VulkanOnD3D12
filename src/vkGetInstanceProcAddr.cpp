@@ -14,23 +14,15 @@
 
 #include "_vulkan.h"
 
-VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vkGetDeviceProcAddr(
-    VkDevice    device,
+VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vkGetInstanceProcAddr(
+    VkInstance  instance,
     const char* pName)
 {
     HMODULE dll = nullptr;
 #if WINAPI_FAMILY == WINAPI_FAMILY_PC_APP
-#if defined(_WIN64)
-    dll = LoadPackagedLibrary(L"VulkanOnD3D12_uwp_x64", 0);
-#else
-    dll = LoadPackagedLibrary(L"VulkanOnD3D12_uwp_x86", 0);
-#endif
+    dll = LoadPackagedLibrary(L"VulkanOnD3D12", 0);
 #elif WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP
-#if defined(_WIN64)
-    dll = LoadLibrary(L"VulkanOnD3D12_x64");
-#else
-    dll = LoadLibrary(L"VulkanOnD3D12_x86");
-#endif
+    dll = LoadLibrary(L"VulkanOnD3D12");
 #endif
     return reinterpret_cast<PFN_vkVoidFunction>(GetProcAddress(dll, pName));
 }

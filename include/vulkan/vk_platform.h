@@ -48,7 +48,7 @@ extern "C"
  */
 #if defined(_WIN32)
     // On Windows, Vulkan commands use the stdcall convention
-    #define VKAPI_ATTR __declspec(dllexport)
+    #define VKAPI_ATTR
     #define VKAPI_CALL __stdcall
     #define VKAPI_PTR  VKAPI_CALL
 #elif defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH < 7

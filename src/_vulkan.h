@@ -26,13 +26,7 @@
 
 using namespace Microsoft::WRL;
 
-#if WINAPI_FAMILY == WINAPI_FAMILY_PC_APP
-#define VK_USE_PLATFORM_UWP_CHB
-#elif WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP
-#define VK_USE_PLATFORM_WIN32_KHR
-#endif
-
-#include "vulkan.h"
+#include <vulkan/vulkan.h>
 
 #include <vector>
 

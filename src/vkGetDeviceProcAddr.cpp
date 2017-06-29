@@ -13,3 +13,16 @@
 // limitations under the License.
 
 #include "_vulkan.h"
+
+VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vkGetDeviceProcAddr(
+    VkDevice    device,
+    const char* pName)
+{
+    HMODULE dll = nullptr;
+#if WINAPI_FAMILY == WINAPI_FAMILY_PC_APP
+    dll = LoadPackagedLibrary(L"VulkanOnD3D12", 0);
+#elif WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP
+    dll = LoadLibrary(L"VulkanOnD3D12");
+#endif
+    return reinterpret_cast<PFN_vkVoidFunction>(GetProcAddress(dll, pName));
+}
