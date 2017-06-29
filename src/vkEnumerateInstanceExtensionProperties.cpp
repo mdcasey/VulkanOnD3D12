@@ -39,7 +39,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkEnumerateInstanceExtensionProperties(
 
     if (pProperties)
     {
-        for (int32_t i = 0; i < propertyCount; ++i)
+        for (uint32_t i = 0; i < propertyCount; ++i)
         {
             pProperties[i] = properties[i];
         }
