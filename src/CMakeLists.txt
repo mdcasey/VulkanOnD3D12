@@ -15,3 +15,8 @@ file(GLOB SOURCES *.cpp)
 set_source_files_properties(_vulkan.cpp PROPERTIES COMPILE_FLAGS "/Yc_vulkan.h")
 
 add_library(VulkanOnD3D12 STATIC ${HEADERS} ${SOURCES})
+set_property(TARGET VulkanOnD3D12 PROPERTY CXX_STANDARD 14)
+target_link_libraries(VulkanOnD3D12 d3d12 dxgi)
+
+add_executable(vulkaninfo vulkaninfo.c)
+target_link_libraries(vulkaninfo VulkanOnD3D12 d3d12 dxgi)
