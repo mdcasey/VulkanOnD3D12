@@ -718,9 +718,20 @@ struct VkPhysicalDevice_T
 {
     VkInstance            instance;
     ComPtr<IDXGIAdapter4> dxgiAdapter;
-    DXGI_ADAPTER_DESC3    dxdiAdapterDesc;
     D3D12_FEATURE         d3dFeatures;
     uint32_t              index;
+
+    DXGI_ADAPTER_DESC3 adapterDesc;
+
+    inline auto GetAdapterDesc() const noexcept
+    {
+        return adapterDesc;
+    }
+
+    inline auto SetAdapterDesc(DXGI_ADAPTER_DESC3 _adapterDesc) noexcept
+    {
+        adapterDesc = _adapterDesc;
+    }
 };
 
 struct VkDevice_T
