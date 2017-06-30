@@ -22,4 +22,5 @@ VKAPI_ATTR void VKAPI_CALL vkCmdDrawIndexed(
     int32_t         vertexOffset,
     uint32_t        firstInstance)
 {
+    commandBuffer->commandList->DrawIndexedInstanced(indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
 }

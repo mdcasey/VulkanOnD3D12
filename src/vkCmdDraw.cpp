@@ -21,4 +21,5 @@ VKAPI_ATTR void VKAPI_CALL vkCmdDraw(
     uint32_t        firstVertex,
     uint32_t        firstInstance)
 {
+    commandBuffer->commandList->DrawInstanced(vertexCount, instanceCount, firstVertex, firstInstance);
 }
