@@ -753,6 +753,7 @@ struct VkFence_T
 
 struct VkDeviceMemory_T
 {
+    ComPtr<ID3D12Resource> memory;
 };
 
 struct VkBuffer_T

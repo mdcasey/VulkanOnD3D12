@@ -22,5 +22,10 @@ VKAPI_ATTR VkResult VKAPI_CALL vkMapMemory(
     VkMemoryMapFlags flags,
     void**           ppData)
 {
+    HRESULT hr = memory->memory->Map(0, nullptr, ppData);
+    if (FAILED(hr))
+    {
+        return VkResultFromHRESULT(hr);
+    }
     return VK_SUCCESS;
 }
