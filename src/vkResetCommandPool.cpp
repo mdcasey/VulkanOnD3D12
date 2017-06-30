@@ -19,7 +19,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkResetCommandPool(
     VkCommandPool           commandPool,
     VkCommandPoolResetFlags flags)
 {
-    HRESULT hr = commandPool->allocator->Reset();
+    HRESULT hr = commandPool->Get()->Reset();
     if (FAILED(hr))
     {
         return VkResultFromHRESULT(hr);

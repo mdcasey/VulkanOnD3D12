@@ -19,5 +19,5 @@ VKAPI_ATTR void VKAPI_CALL vkCmdSetDepthBounds(
     float           minDepthBounds,
     float           maxDepthBounds)
 {
-    commandBuffer->commandList->OMSetDepthBounds(minDepthBounds, maxDepthBounds);
+    static_cast<ID3D12GraphicsCommandList1*>(commandBuffer->Get())->OMSetDepthBounds(minDepthBounds, maxDepthBounds);
 }

@@ -30,7 +30,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateShaderModule(
         shaderModule = new VkShaderModule_T();
     }
 
-    shaderModule->bytecode.BytecodeLength = pCreateInfo->codeSize;
+    shaderModule->bytecode.BytecodeLength  = pCreateInfo->codeSize;
     shaderModule->bytecode.pShaderBytecode = pCreateInfo->pCode;
 
     *pShaderModule = shaderModule;

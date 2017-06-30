@@ -20,5 +20,5 @@ VKAPI_ATTR void VKAPI_CALL vkCmdDispatch(
     uint32_t        groupCountY,
     uint32_t        groupCountZ)
 {
-    commandBuffer->commandList->Dispatch(groupCountX, groupCountY, groupCountZ);
+    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->Get())->Dispatch(groupCountX, groupCountY, groupCountZ);
 }

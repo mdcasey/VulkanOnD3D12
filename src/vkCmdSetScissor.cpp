@@ -31,5 +31,5 @@ VKAPI_ATTR void VKAPI_CALL vkCmdSetScissor(
         rects[i] = VkRect2DToD3D12(pScissors[i]);
     }
 
-    commandBuffer->commandList->RSSetScissorRects(scissorCount - firstScissor, rects.data());
+    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->Get())->RSSetScissorRects(scissorCount - firstScissor, rects.data());
 }

@@ -31,5 +31,5 @@ VKAPI_ATTR void VKAPI_CALL vkCmdSetViewport(
         viewports[i] = VkViewportToD3D12(pViewports[i]);
     }
 
-    commandBuffer->commandList->RSSetViewports(viewportCount - firstViewport, viewports.data());
+    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->Get())->RSSetViewports(viewportCount - firstViewport, viewports.data());
 }

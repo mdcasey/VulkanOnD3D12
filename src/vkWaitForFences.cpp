@@ -23,15 +23,14 @@ VKAPI_ATTR VkResult VKAPI_CALL vkWaitForFences(
 {
     for (uint32_t i = 0; i < fenceCount; ++i)
     {
-        if (pFences[i]->d3dFence->GetCompletedValue() == 0)
+        if (pFences[i]->Get()->GetCompletedValue() == 0)
         {
-            HRESULT hr = device->queues[0]->d3dQueue->Wait(pFences[i]->d3dFence.Get(), 1);
+            HRESULT hr = device->queues[0]->d3dQueue->Wait(pFences[i]->Get(), 1);
             if (FAILED(hr))
             {
                 return VkResultFromHRESULT(hr);
             }
         }
     }
-
     return VK_SUCCESS;
 }

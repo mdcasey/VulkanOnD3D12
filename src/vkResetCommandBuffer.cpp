@@ -18,7 +18,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkResetCommandBuffer(
     VkCommandBuffer           commandBuffer,
     VkCommandBufferResetFlags flags)
 {
-    HRESULT hr = commandBuffer->commandList->Reset(commandBuffer->allocator, nullptr);
+    HRESULT hr = static_cast<ID3D12GraphicsCommandList*>(commandBuffer->Get())->Reset(commandBuffer->GetCommandAllocator(), nullptr);
     if (FAILED(hr))
     {
         return VkResultFromHRESULT(hr);

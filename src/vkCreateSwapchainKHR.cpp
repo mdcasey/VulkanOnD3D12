@@ -44,18 +44,11 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateSwapchainKHR(
     desc.AlphaMode             = VkCompositeAlphaFlagBitsKHRToDXGI_ALPHA_MODE(pCreateInfo->compositeAlpha);
     desc.Flags                 = 0;
 
-    ComPtr<IDXGISwapChain1> dxgiSwapChain;
 #if WINAPI_FAMILY == WINAPI_FAMILY_PC_APP
-    HRESULT hr = device->physicalDevice->instance->dxgiFactory->CreateSwapChainForCoreWindow(device->queues[0]->d3dQueue.Get(), pCreateInfo->surface->window, &desc, nullptr, &dxgiSwapChain);
+    HRESULT hr = device->physicalDevice->instance->dxgiFactory->CreateSwapChainForCoreWindow(device->queues[0]->d3dQueue.Get(), pCreateInfo->surface->window, &desc, nullptr, swapchain->GetAddressOf());
 #elif WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP
-    HRESULT hr = device->physicalDevice->instance->dxgiFactory->CreateSwapChainForHwnd(device->queues[0]->d3dQueue.Get(), pCreateInfo->surface->hwnd, &desc, nullptr, nullptr, &dxgiSwapChain);
+    HRESULT hr = device->physicalDevice->instance->dxgiFactory->CreateSwapChainForHwnd(device->queues[0]->d3dQueue.Get(), pCreateInfo->surface->hwnd, &desc, nullptr, nullptr, swapchain->GetAddressOf());
 #endif
-    if (FAILED(hr))
-    {
-        return VkResultFromHRESULT(hr);
-    }
-
-    hr = dxgiSwapChain.As(&swapchain->dxgiSwapChain);
     if (FAILED(hr))
     {
         return VkResultFromHRESULT(hr);
