@@ -21,4 +21,8 @@ VKAPI_ATTR void VKAPI_CALL vkCmdCopyBuffer(
     uint32_t            regionCount,
     const VkBufferCopy* pRegions)
 {
+    for (uint32_t i = 0; i < regionCount; ++i)
+    {
+        commandBuffer->commandList->CopyBufferRegion(dstBuffer->buffer.Get(), pRegions[i].dstOffset, srcBuffer->buffer.Get(), pRegions[i].srcOffset, pRegions[i].size);
+    }
 }

@@ -757,6 +757,7 @@ struct VkDeviceMemory_T
 
 struct VkBuffer_T
 {
+    ComPtr<ID3D12Resource> buffer;
 };
 
 struct VkImage_T
