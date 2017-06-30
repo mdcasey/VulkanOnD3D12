@@ -743,6 +743,7 @@ struct VkSemaphore_T
 
 struct VkCommandBuffer_T
 {
+    ComPtr<ID3D12GraphicsCommandList1> commandList;
 };
 
 struct VkFence_T
