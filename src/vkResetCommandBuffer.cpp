@@ -18,5 +18,10 @@ VKAPI_ATTR VkResult VKAPI_CALL vkResetCommandBuffer(
     VkCommandBuffer           commandBuffer,
     VkCommandBufferResetFlags flags)
 {
+    HRESULT hr = commandBuffer->commandList->Reset(commandBuffer->allocator, nullptr);
+    if (FAILED(hr))
+    {
+        return VkResultFromHRESULT(hr);
+    }
     return VK_SUCCESS;
 }

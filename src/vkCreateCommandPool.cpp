@@ -30,6 +30,12 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateCommandPool(
         commandPool = new VkCommandPool_T();
     }
 
+    HRESULT hr = device->d3dDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandPool->allocator));
+    if (FAILED(hr))
+    {
+        return VkResultFromHRESULT(hr);
+    }
+
     *pCommandPool = commandPool;
 
     return VK_SUCCESS;
