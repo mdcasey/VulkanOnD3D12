@@ -781,10 +781,12 @@ struct VkImageView_T
 
 struct VkShaderModule_T
 {
+    D3D12_SHADER_BYTECODE bytecode;
 };
 
 struct VkPipelineCache_T
 {
+    D3D12_CACHED_PIPELINE_STATE pipelineCache;
 };
 
 struct VkPipelineLayout_T
@@ -797,6 +799,7 @@ struct VkRenderPass_T
 
 struct VkPipeline_T
 {
+    ComPtr<ID3D12PipelineState> pipeline;
 };
 
 struct VkDescriptorSetLayout_T
