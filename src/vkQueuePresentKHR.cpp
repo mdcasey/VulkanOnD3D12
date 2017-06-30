@@ -18,5 +18,13 @@ VKAPI_ATTR VkResult VKAPI_CALL vkQueuePresentKHR(
     VkQueue                 queue,
     const VkPresentInfoKHR* pPresentInfo)
 {
+    for (uint32_t i = 0; i < pPresentInfo->swapchainCount; ++i)
+    {
+        HRESULT hr = pPresentInfo->pSwapchains[i]->Get()->Present(0, 0);
+        if (FAILED(hr))
+        {
+            return VkResultFromHRESULT(hr);
+        }
+    }
     return VK_SUCCESS;
 }
