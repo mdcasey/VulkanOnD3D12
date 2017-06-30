@@ -34,6 +34,8 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateWin32SurfaceKHR(
     surface->hinstance = pCreateInfo->hinstance;
     surface->hwnd      = pCreateInfo->hwnd;
 
+    *pSurface = surface;
+
     return VK_SUCCESS;
 }
 #endif

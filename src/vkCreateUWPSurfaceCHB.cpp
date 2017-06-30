@@ -33,6 +33,8 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateUWPSurfaceCHB(
 
     surface->window = pCreateInfo->window;
 
+    *pSurface = surface;
+
     return VK_SUCCESS;
 }
 #endif
