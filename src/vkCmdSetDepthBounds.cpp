@@ -19,4 +19,5 @@ VKAPI_ATTR void VKAPI_CALL vkCmdSetDepthBounds(
     float           minDepthBounds,
     float           maxDepthBounds)
 {
+    commandBuffer->commandList->OMSetDepthBounds(minDepthBounds, maxDepthBounds);
 }
