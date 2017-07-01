@@ -30,7 +30,10 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateDevice(
         device = new VkDevice_T();
     }
 
-    HRESULT hr = D3D12CreateDevice(physicalDevice->dxgiAdapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device->d3dDevice));
+    HRESULT hr = D3D12CreateDevice(
+        physicalDevice->Get(),
+        D3D_FEATURE_LEVEL_11_0,
+        IID_PPV_ARGS(device->GetAddressOf()));
     if (FAILED(hr))
     {
         return VkResultFromHRESULT(hr);
@@ -54,16 +57,15 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateDevice(
         queueDesc.Flags                    = D3D12_COMMAND_QUEUE_FLAG_NONE;
         queueDesc.NodeMask                 = 0;
 
-        hr = device->d3dDevice->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&queue->d3dQueue));
+        hr = device->Get()->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(queue->GetAddressOf()));
         if (FAILED(hr))
         {
             return VkResultFromHRESULT(hr);
         }
-        queue->device = device;
         device->queues.push_back(queue);
     }
 
-    device->physicalDevice = physicalDevice;
+    device->SetPhysicalDevice(physicalDevice);
 
     *pDevice = device;
 

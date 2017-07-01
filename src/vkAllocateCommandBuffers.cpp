@@ -21,7 +21,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkAllocateCommandBuffers(
 {
     for (uint32_t i = 0; i < pAllocateInfo->commandBufferCount; ++i)
     {
-        HRESULT hr = device->d3dDevice->CreateCommandList(device->physicalDevice->index, D3D12_COMMAND_LIST_TYPE_DIRECT, pAllocateInfo->commandPool->Get(), nullptr, IID_PPV_ARGS(&pCommandBuffers[i]->commandList));
+        HRESULT hr = device->Get()->CreateCommandList(device->GetPhysicalDevice()->GetIndex(), D3D12_COMMAND_LIST_TYPE_DIRECT, pAllocateInfo->commandPool->Get(), nullptr, IID_PPV_ARGS(&pCommandBuffers[i]->commandList));
         if (FAILED(hr))
         {
             return VkResultFromHRESULT(hr);

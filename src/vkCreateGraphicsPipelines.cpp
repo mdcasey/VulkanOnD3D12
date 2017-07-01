@@ -142,7 +142,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateGraphicsPipelines(
         pipelineDesc.DSVFormat;
         pipelineDesc.SampleDesc.Count   = 1;
         pipelineDesc.SampleDesc.Quality = 0;
-        pipelineDesc.NodeMask           = device->physicalDevice->index;
+        pipelineDesc.NodeMask           = device->GetPhysicalDevice()->GetIndex();
         pipelineDesc.CachedPSO          = pipelineCache->pipelineCache;
         pipelineDesc.Flags              = D3D12_PIPELINE_STATE_FLAG_NONE;
 
@@ -170,7 +170,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateGraphicsPipelines(
             }
         }
 
-        HRESULT hr = device->d3dDevice->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipeline->pipeline));
+        HRESULT hr = device->Get()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipeline->pipeline));
         if (FAILED(hr))
         {
             return VkResultFromHRESULT(hr);

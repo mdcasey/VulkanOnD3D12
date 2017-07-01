@@ -30,6 +30,63 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateImage(
         image = new VkImage_T();
     }
 
+    D3D12_CLEAR_VALUE     clearValue    = {};
+    D3D12_RESOURCE_STATES resourceState = D3D12_RESOURCE_STATE_COPY_DEST;
+    D3D12_RESOURCE_FLAGS  resourceFlags = D3D12_RESOURCE_FLAG_NONE;
+    if (pCreateInfo->usage & VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT)
+    {
+        clearValue = CD3DX12_CLEAR_VALUE(VkFormatToD3D12(pCreateInfo->format), 1.0f, 0);
+        resourceFlags |= D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+        resourceFlags |= D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE;
+    }
+
+    D3D12_RESOURCE_DESC desc = {};
+    switch (pCreateInfo->imageType)
+    {
+    case VK_IMAGE_TYPE_1D:
+        desc = CD3DX12_RESOURCE_DESC::Tex1D(
+            VkFormatToD3D12(pCreateInfo->format),
+            pCreateInfo->extent.width,
+            static_cast<UINT16>(pCreateInfo->arrayLayers),
+            static_cast<UINT16>(pCreateInfo->mipLevels),
+            resourceFlags);
+        break;
+    case VK_IMAGE_TYPE_2D:
+        desc = CD3DX12_RESOURCE_DESC::Tex2D(
+            VkFormatToD3D12(pCreateInfo->format),
+            pCreateInfo->extent.width,
+            pCreateInfo->extent.height,
+            static_cast<UINT16>(pCreateInfo->arrayLayers),
+            static_cast<UINT16>(pCreateInfo->mipLevels),
+            pCreateInfo->samples,
+            0,
+            resourceFlags);
+        break;
+    case VK_IMAGE_TYPE_3D:
+        desc = CD3DX12_RESOURCE_DESC::Tex3D(
+            VkFormatToD3D12(pCreateInfo->format),
+            pCreateInfo->extent.width,
+            pCreateInfo->extent.height,
+            static_cast<UINT16>(pCreateInfo->extent.depth),
+            static_cast<UINT16>(pCreateInfo->mipLevels),
+            resourceFlags);
+        break;
+    }
+
+    D3D12_HEAP_PROPERTIES heapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+
+    HRESULT hr = device->Get()->CreateCommittedResource(
+        &heapProperties,
+        D3D12_HEAP_FLAG_NONE,
+        &desc,
+        resourceState,
+        (resourceFlags & D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET) || (resourceFlags & D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL) ? &clearValue : nullptr,
+        IID_PPV_ARGS(image->GetAddressOf()));
+    if (FAILED(hr))
+    {
+        return VkResultFromHRESULT(hr);
+    }
+
     *pImage = image;
 
     return VK_SUCCESS;

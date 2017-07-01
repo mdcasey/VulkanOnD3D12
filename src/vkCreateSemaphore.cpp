@@ -30,7 +30,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateSemaphore(
         semaphore = new VkSemaphore_T();
     }
 
-    HRESULT hr = device->d3dDevice->CreateFence(
+    HRESULT hr = device->Get()->CreateFence(
         0,
         D3D12_FENCE_FLAG_NONE,
         IID_PPV_ARGS(semaphore->GetAddressOf()));

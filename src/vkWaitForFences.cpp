@@ -25,7 +25,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkWaitForFences(
     {
         if (pFences[i]->Get()->GetCompletedValue() == 0)
         {
-            HRESULT hr = device->queues[0]->d3dQueue->Wait(pFences[i]->Get(), 1);
+            HRESULT hr = device->queues[0]->Get()->Wait(pFences[i]->Get(), 1);
             if (FAILED(hr))
             {
                 return VkResultFromHRESULT(hr);

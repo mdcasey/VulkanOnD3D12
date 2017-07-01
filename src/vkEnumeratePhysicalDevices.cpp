@@ -32,22 +32,17 @@ VKAPI_ATTR VkResult VKAPI_CALL vkEnumeratePhysicalDevices(
             {
                 VkPhysicalDevice physicalDevice = new VkPhysicalDevice_T();
 
-                HRESULT hr = adapter.As(&physicalDevice->dxgiAdapter);
-                if (FAILED(hr))
-                {
-                    return VkResultFromHRESULT(hr);
-                }
+                physicalDevice->adapter = adapter;
 
-                DXGI_ADAPTER_DESC3 adapterDesc;
-                hr = physicalDevice->dxgiAdapter->GetDesc3(&adapterDesc);
+                DXGI_ADAPTER_DESC1 adapterDesc;
+                HRESULT            hr = physicalDevice->Get()->GetDesc1(&adapterDesc);
                 if (FAILED(hr))
                 {
                     return VkResultFromHRESULT(hr);
                 }
                 physicalDevice->SetAdapterDesc(adapterDesc);
-
-                physicalDevice->instance = instance;
-                physicalDevice->index    = curAdapter;
+                physicalDevice->SetIndex(curAdapter);
+                physicalDevice->SetInstance(instance);
 
                 pPhysicalDevices[curAdapter] = physicalDevice;
             }

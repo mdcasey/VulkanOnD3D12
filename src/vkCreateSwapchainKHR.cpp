@@ -33,7 +33,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateSwapchainKHR(
     DXGI_SWAP_CHAIN_DESC1 desc = {};
     desc.Width                 = pCreateInfo->imageExtent.width;
     desc.Height                = pCreateInfo->imageExtent.height;
-    desc.Format                = VkFormatToDXGI_FORMAT(pCreateInfo->imageFormat);
+    desc.Format                = VkFormatToD3D12(pCreateInfo->imageFormat);
     desc.Stereo                = FALSE;
     desc.SampleDesc.Count      = 1;
     desc.SampleDesc.Quality    = 0;
@@ -45,9 +45,9 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateSwapchainKHR(
     desc.Flags                 = 0;
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PC_APP
-    HRESULT hr = device->physicalDevice->instance->dxgiFactory->CreateSwapChainForCoreWindow(device->queues[0]->d3dQueue.Get(), pCreateInfo->surface->window, &desc, nullptr, swapchain->GetAddressOf());
+    HRESULT hr = device->GetPhysicalDevice()->GetInstance()->dxgiFactory->CreateSwapChainForCoreWindow(device->queues[0]->Get(), pCreateInfo->surface->window, &desc, nullptr, swapchain->GetAddressOf());
 #elif WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP
-    HRESULT hr = device->physicalDevice->instance->dxgiFactory->CreateSwapChainForHwnd(device->queues[0]->d3dQueue.Get(), pCreateInfo->surface->hwnd, &desc, nullptr, nullptr, swapchain->GetAddressOf());
+    HRESULT hr = device->GetPhysicalDevice()->GetInstance()->dxgiFactory->CreateSwapChainForHwnd(device->queues[0]->Get(), pCreateInfo->surface->hwnd, &desc, nullptr, nullptr, swapchain->GetAddressOf());
 #endif
     if (FAILED(hr))
     {
