@@ -20,5 +20,24 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceSurfaceFormatsKHR(
     uint32_t*           pSurfaceFormatCount,
     VkSurfaceFormatKHR* pSurfaceFormats)
 {
+    constexpr uint32_t surfaceFormatCount = 2;
+    // clang-format off
+    constexpr VkSurfaceFormatKHR surfaceFormats[surfaceFormatCount] =
+    {
+        {VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
+        {VK_FORMAT_R8G8B8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR}
+    };
+    // clang-format on
+
+    *pSurfaceFormatCount = surfaceFormatCount;
+
+    if (pSurfaceFormats)
+    {
+        for (uint32_t i = 0; i < surfaceFormatCount; ++i)
+        {
+            pSurfaceFormats[i] = surfaceFormats[i];
+        }
+    }
+
     return VK_SUCCESS;
 }

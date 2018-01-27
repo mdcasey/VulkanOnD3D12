@@ -20,5 +20,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceSurfaceSupportKHR(
     VkSurfaceKHR     surface,
     VkBool32*        pSupported)
 {
+    *pSupported = VK_TRUE;
+
     return VK_SUCCESS;
 }

@@ -20,4 +20,5 @@ VKAPI_ATTR void VKAPI_CALL vkGetDeviceQueue(
     uint32_t queueIndex,
     VkQueue* pQueue)
 {
+    *pQueue = device->queues[queueIndex];
 }
