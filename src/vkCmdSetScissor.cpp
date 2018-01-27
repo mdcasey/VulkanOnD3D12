@@ -14,11 +14,6 @@
 
 #include "_vulkan.h"
 
-constexpr inline D3D12_RECT VkRect2DToD3D12(const VkRect2D& rect)
-{
-    return CD3DX12_RECT(rect.offset.x, rect.offset.y, rect.offset.x + rect.extent.width, rect.offset.y + rect.extent.height);
-}
-
 VKAPI_ATTR void VKAPI_CALL vkCmdSetScissor(
     VkCommandBuffer commandBuffer,
     uint32_t        firstScissor,
@@ -28,7 +23,7 @@ VKAPI_ATTR void VKAPI_CALL vkCmdSetScissor(
     std::vector<D3D12_RECT> rects(scissorCount - firstScissor);
     for (uint32_t i = firstScissor; i < scissorCount; ++i)
     {
-        rects[i] = VkRect2DToD3D12(pScissors[i]);
+        rects[i] = CD3DX12_RECT(pScissors[i].offset.x, pScissors[i].offset.y, pScissors[i].offset.x + pScissors[i].extent.width, pScissors[i].offset.y + pScissors[i].extent.height);
     }
 
     static_cast<ID3D12GraphicsCommandList*>(commandBuffer->Get())->RSSetScissorRects(scissorCount - firstScissor, rects.data());

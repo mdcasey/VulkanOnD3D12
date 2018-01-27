@@ -14,11 +14,6 @@
 
 #include "_vulkan.h"
 
-constexpr inline D3D12_VIEWPORT VkViewportToD3D12(const VkViewport& viewport)
-{
-    return CD3DX12_VIEWPORT(viewport.x, viewport.y, viewport.width, viewport.height, viewport.minDepth, viewport.maxDepth);
-}
-
 VKAPI_ATTR void VKAPI_CALL vkCmdSetViewport(
     VkCommandBuffer   commandBuffer,
     uint32_t          firstViewport,
@@ -28,7 +23,7 @@ VKAPI_ATTR void VKAPI_CALL vkCmdSetViewport(
     std::vector<D3D12_VIEWPORT> viewports(viewportCount - firstViewport);
     for (uint32_t i = firstViewport; i < viewportCount; ++i)
     {
-        viewports[i] = VkViewportToD3D12(pViewports[i]);
+        viewports[i] = CD3DX12_VIEWPORT(pViewports[i].x, pViewports[i].y, pViewports[i].width, pViewports[i].height, pViewports[i].minDepth, pViewports[i].maxDepth);
     }
 
     static_cast<ID3D12GraphicsCommandList*>(commandBuffer->Get())->RSSetViewports(viewportCount - firstViewport, viewports.data());
