@@ -20,5 +20,15 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetSwapchainImagesKHR(
     uint32_t*      pSwapchainImageCount,
     VkImage*       pSwapchainImages)
 {
+    *pSwapchainImageCount = static_cast<uint32_t>(swapchain->images.size());
+
+    if (pSwapchainImages)
+    {
+        for (uint32_t i = 0; i < *pSwapchainImageCount; ++i)
+        {
+            pSwapchainImages[i] = swapchain->images[i];
+        }
+    }
+
     return VK_SUCCESS;
 }

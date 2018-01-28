@@ -375,6 +375,8 @@ struct VkSwapchainKHR_T
     {
         return swapChain.GetAddressOf();
     }
+
+    std::vector<VkImage> images;
 };
 
 struct VkDebugReportCallbackEXT_T
