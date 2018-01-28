@@ -18,5 +18,17 @@ VKAPI_ATTR VkResult VKAPI_CALL vkBeginCommandBuffer(
     VkCommandBuffer                 commandBuffer,
     const VkCommandBufferBeginInfo* pBeginInfo)
 {
+    HRESULT hr = static_cast<ID3D12GraphicsCommandList *>(commandBuffer->Get())->Close();
+    if (FAILED(hr))
+    {
+        return VkResultFromHRESULT(hr);
+    }
+
+    hr = static_cast<ID3D12GraphicsCommandList *>(commandBuffer->Get())->Reset(commandBuffer->commandAllocator, nullptr);
+    if (FAILED(hr))
+    {
+        return VkResultFromHRESULT(hr);
+    }
+
     return VK_SUCCESS;
 }
