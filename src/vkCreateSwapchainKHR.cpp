@@ -95,8 +95,22 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateSwapchainKHR(
             return VkResultFromHRESULT(hr);
         }
 
-        VkImage image   = new VkImage_T();
+        D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc = {};
+        descriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+        descriptorHeapDesc.NumDescriptors = 1;
+        descriptorHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+        descriptorHeapDesc.NodeMask = device->physicalDevice->index;
+
+        ComPtr<ID3D12DescriptorHeap> descriptorHeap;
+        hr = device->device->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(descriptorHeap.GetAddressOf()));
+        if (FAILED(hr))
+        {
+            return VkResultFromHRESULT(hr);
+        }
+
+        VkImage image = new VkImage_T();
         image->resource = resource;
+        image->descriptorHeap = descriptorHeap;
 
         swapchain->images.push_back(image);
     }
