@@ -20,5 +20,14 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceSurfacePresentModesKHR(
     uint32_t*         pPresentModeCount,
     VkPresentModeKHR* pPresentModes)
 {
+    *pPresentModeCount = 3;
+
+    if (pPresentModes)
+    {
+        pPresentModes[0] = VK_PRESENT_MODE_FIFO_KHR;
+        pPresentModes[1] = VK_PRESENT_MODE_FIFO_RELAXED_KHR;
+        pPresentModes[2] = VK_PRESENT_MODE_MAILBOX_KHR;
+    }
+
     return VK_SUCCESS;
 }
