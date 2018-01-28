@@ -22,4 +22,7 @@ VKAPI_ATTR void VKAPI_CALL vkCmdClearColorImage(
     uint32_t                       rangeCount,
     const VkImageSubresourceRange* pRanges)
 {
+    const float color[4] = {pColor->float32[0], pColor->float32[1], pColor->float32[2], pColor->float32[3]};
+
+    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->commandList.Get())->ClearRenderTargetView(CD3DX12_CPU_DESCRIPTOR_HANDLE(image->descriptorHeap->GetCPUDescriptorHandleForHeapStart()), color, 0, nullptr);
 }

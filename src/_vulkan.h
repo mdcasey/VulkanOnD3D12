@@ -275,6 +275,8 @@ struct VkImage_T
     {
         return resource.GetAddressOf();
     }
+
+    ComPtr<ID3D12DescriptorHeap> descriptorHeap;
 };
 
 struct VkEvent_T
