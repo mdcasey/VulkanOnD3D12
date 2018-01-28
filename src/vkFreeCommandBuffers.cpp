@@ -20,4 +20,8 @@ VKAPI_ATTR void VKAPI_CALL vkFreeCommandBuffers(
     uint32_t               commandBufferCount,
     const VkCommandBuffer* pCommandBuffers)
 {
+    for (uint32_t i = 0; i < commandBufferCount; ++i)
+    {
+        delete pCommandBuffers[i];
+    }
 }

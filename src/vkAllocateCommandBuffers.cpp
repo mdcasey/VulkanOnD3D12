@@ -21,12 +21,17 @@ VKAPI_ATTR VkResult VKAPI_CALL vkAllocateCommandBuffers(
 {
     for (uint32_t i = 0; i < pAllocateInfo->commandBufferCount; ++i)
     {
-        HRESULT hr = device->Get()->CreateCommandList(device->GetPhysicalDevice()->GetIndex(), D3D12_COMMAND_LIST_TYPE_DIRECT, pAllocateInfo->commandPool->Get(), nullptr, IID_PPV_ARGS(&pCommandBuffers[i]->commandList));
+        VkCommandBuffer commandBuffer = new VkCommandBuffer_T();
+
+        HRESULT hr = device->Get()->CreateCommandList(device->GetPhysicalDevice()->GetIndex(), D3D12_COMMAND_LIST_TYPE_DIRECT, pAllocateInfo->commandPool->Get(), nullptr, IID_PPV_ARGS(commandBuffer->commandList.GetAddressOf()));
         if (FAILED(hr))
         {
             return VkResultFromHRESULT(hr);
         }
-        pCommandBuffers[i]->SetCommandAllocator(pAllocateInfo->commandPool->Get());
+
+        commandBuffer->commandAllocator = pAllocateInfo->commandPool->Get();
+
+        pCommandBuffers[i] = commandBuffer;
     }
     return VK_SUCCESS;
 }
