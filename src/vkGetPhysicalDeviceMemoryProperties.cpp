@@ -19,12 +19,20 @@ VKAPI_ATTR void VKAPI_CALL vkGetPhysicalDeviceMemoryProperties(
     VkPhysicalDeviceMemoryProperties* pMemoryProperties)
 {
     VkPhysicalDeviceMemoryProperties memoryProperties = {};
-    memoryProperties.memoryTypeCount;
-    memoryProperties.memoryTypes[0].propertyFlags;
-    memoryProperties.memoryTypes[0].heapIndex;
-    memoryProperties.memoryHeapCount;
-    memoryProperties.memoryHeaps[0].size;
-    memoryProperties.memoryHeaps[0].flags;
+    memoryProperties.memoryTypeCount                  = 3;
+    memoryProperties.memoryTypes[0].propertyFlags     = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+    memoryProperties.memoryTypes[0].heapIndex         = 0;
+    memoryProperties.memoryTypes[1].propertyFlags     = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+    memoryProperties.memoryTypes[1].heapIndex         = 1;
+    memoryProperties.memoryTypes[2].propertyFlags     = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+    memoryProperties.memoryTypes[2].heapIndex         = 2;
+    memoryProperties.memoryHeapCount                  = 3;
+    memoryProperties.memoryHeaps[0].size              = physicalDevice->GetAdapterDesc().DedicatedVideoMemory;
+    memoryProperties.memoryHeaps[0].flags             = VK_MEMORY_HEAP_DEVICE_LOCAL_BIT;
+    memoryProperties.memoryHeaps[1].size              = physicalDevice->GetAdapterDesc().DedicatedSystemMemory;
+    memoryProperties.memoryHeaps[1].flags             = 0;
+    memoryProperties.memoryHeaps[2].size              = physicalDevice->GetAdapterDesc().SharedSystemMemory;
+    memoryProperties.memoryHeaps[2].flags             = 0;
 
     *pMemoryProperties = memoryProperties;
 }
