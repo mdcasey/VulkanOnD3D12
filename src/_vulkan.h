@@ -460,20 +460,26 @@ constexpr inline DXGI_FORMAT VkFormatToD3D12(VkFormat format)
     case VK_FORMAT_B8G8R8_SRGB:
         break;
     case VK_FORMAT_R8G8B8A8_UNORM:
+        return DXGI_FORMAT_R8G8B8A8_UNORM;
         break;
     case VK_FORMAT_R8G8B8A8_SNORM:
+        return DXGI_FORMAT_R8G8B8A8_SNORM;
         break;
     case VK_FORMAT_R8G8B8A8_USCALED:
         break;
     case VK_FORMAT_R8G8B8A8_SSCALED:
         break;
     case VK_FORMAT_R8G8B8A8_UINT:
+        return DXGI_FORMAT_R8G8B8A8_UINT;
         break;
     case VK_FORMAT_R8G8B8A8_SINT:
+        return DXGI_FORMAT_R8G8B8A8_SINT;
         break;
     case VK_FORMAT_R8G8B8A8_SRGB:
+        return DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
         break;
     case VK_FORMAT_B8G8R8A8_UNORM:
+        return DXGI_FORMAT_B8G8R8A8_UNORM;
         break;
     case VK_FORMAT_B8G8R8A8_SNORM:
         break;
@@ -486,6 +492,7 @@ constexpr inline DXGI_FORMAT VkFormatToD3D12(VkFormat format)
     case VK_FORMAT_B8G8R8A8_SINT:
         break;
     case VK_FORMAT_B8G8R8A8_SRGB:
+        return DXGI_FORMAT_B8G8R8A8_UNORM_SRGB;
         break;
     case VK_FORMAT_A8B8G8R8_UNORM_PACK32:
         break;
