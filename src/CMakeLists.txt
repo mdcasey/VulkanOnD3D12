@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.0)
 include_directories(../include)
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL Windows)
+add_subdirectory(cube)
 add_subdirectory(vulkaninfo)
 endif()
 
