@@ -22,5 +22,5 @@ VKAPI_ATTR void VKAPI_CALL vkCmdClearDepthStencilImage(
     uint32_t                        rangeCount,
     const VkImageSubresourceRange*  pRanges)
 {
-    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->commandList.Get())->ClearDepthStencilView(CD3DX12_CPU_DESCRIPTOR_HANDLE(image->descriptorHeap->GetCPUDescriptorHandleForHeapStart()), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, pDepthStencil->depth, pDepthStencil->stencil, 0, nullptr);
+    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->commandList.Get())->ClearDepthStencilView(CD3DX12_CPU_DESCRIPTOR_HANDLE(image->descriptorHeap->GetCPUDescriptorHandleForHeapStart()), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, pDepthStencil->depth, static_cast<uint8_t>(pDepthStencil->stencil), 0, nullptr);
 }
