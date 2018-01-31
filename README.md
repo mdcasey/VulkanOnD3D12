@@ -3,6 +3,9 @@
 VulkanOnD3D12 aims to make the Vulkan API available to platforms where only a
 D3D12 driver is available, such as Windows UWP.
 
+This project is currently a work in progress and as such, some or most things
+may not work at all.
+
 ### Usage
 
 An example using the VK_CHB_uwp_surface extension to create a VkSurface for a
