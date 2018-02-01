@@ -22,5 +22,13 @@ VKAPI_ATTR VkResult VKAPI_CALL vkMapMemory(
     VkMemoryMapFlags flags,
     void**           ppData)
 {
+    auto range = CD3DX12_RANGE(offset, offset + size);
+
+    HRESULT hr = memory->placedResource->Map(0, &range, ppData);
+    if (FAILED(hr))
+    {
+        return VkResultFromHRESULT(hr);
+    }
+
     return VK_SUCCESS;
 }

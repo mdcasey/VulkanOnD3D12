@@ -21,7 +21,11 @@ VKAPI_ATTR VkResult VKAPI_CALL vkBindImageMemory(
     VkDeviceSize   memoryOffset)
 {
     auto desc = image->resource->GetDesc();
-    device->device->CreatePlacedResource(memory->heap.Get(), memoryOffset, &desc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(image->placedResource.GetAddressOf()));
+    HRESULT hr = device->device->CreatePlacedResource(memory->heap.Get(), memoryOffset, &desc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(memory->placedResource.GetAddressOf()));
+    if (FAILED(hr))
+    {
+        return VkResultFromHRESULT(hr);
+    }
 
     return VK_SUCCESS;
 }

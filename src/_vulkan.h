@@ -235,6 +235,7 @@ struct VkFence_T
 struct VkDeviceMemory_T
 {
     ComPtr<ID3D12Heap> heap;
+    ComPtr<ID3D12Resource> placedResource;
 };
 
 struct VkBuffer_T
@@ -267,8 +268,6 @@ struct VkImage_T
     }
 
     ComPtr<ID3D12DescriptorHeap> descriptorHeap;
-
-    ComPtr<ID3D12Resource> placedResource;
 };
 
 struct VkEvent_T
