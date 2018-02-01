@@ -40,11 +40,11 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateImage(
         resourceFlags |= D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE;
     }
 
-    D3D12_RESOURCE_DESC desc = {};
+    D3D12_RESOURCE_DESC resourceDesc = {};
     switch (pCreateInfo->imageType)
     {
     case VK_IMAGE_TYPE_1D:
-        desc = CD3DX12_RESOURCE_DESC::Tex1D(
+        resourceDesc = CD3DX12_RESOURCE_DESC::Tex1D(
             VkFormatToD3D12(pCreateInfo->format),
             pCreateInfo->extent.width,
             static_cast<UINT16>(pCreateInfo->arrayLayers),
@@ -52,7 +52,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateImage(
             resourceFlags);
         break;
     case VK_IMAGE_TYPE_2D:
-        desc = CD3DX12_RESOURCE_DESC::Tex2D(
+        resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(
             VkFormatToD3D12(pCreateInfo->format),
             pCreateInfo->extent.width,
             pCreateInfo->extent.height,
@@ -63,7 +63,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateImage(
             resourceFlags);
         break;
     case VK_IMAGE_TYPE_3D:
-        desc = CD3DX12_RESOURCE_DESC::Tex3D(
+        resourceDesc = CD3DX12_RESOURCE_DESC::Tex3D(
             VkFormatToD3D12(pCreateInfo->format),
             pCreateInfo->extent.width,
             pCreateInfo->extent.height,
@@ -78,7 +78,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateImage(
     HRESULT hr = device->Get()->CreateCommittedResource(
         &heapProperties,
         D3D12_HEAP_FLAG_NONE,
-        &desc,
+        &resourceDesc,
         resourceState,
         (resourceFlags & D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET) || (resourceFlags & D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL) ? &clearValue : nullptr,
         IID_PPV_ARGS(image->GetAddressOf()));

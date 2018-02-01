@@ -234,17 +234,7 @@ struct VkFence_T
 
 struct VkDeviceMemory_T
 {
-    ComPtr<ID3D12Resource> resource;
-
-    inline auto Get() const noexcept
-    {
-        return resource.Get();
-    }
-
-    inline auto GetAddressOf() noexcept
-    {
-        return resource.GetAddressOf();
-    }
+    ComPtr<ID3D12Heap> heap;
 };
 
 struct VkBuffer_T
@@ -277,6 +267,8 @@ struct VkImage_T
     }
 
     ComPtr<ID3D12DescriptorHeap> descriptorHeap;
+
+    ComPtr<ID3D12Resource> placedResource;
 };
 
 struct VkEvent_T

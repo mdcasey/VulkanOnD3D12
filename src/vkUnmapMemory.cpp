@@ -18,5 +18,4 @@ VKAPI_ATTR void VKAPI_CALL vkUnmapMemory(
     VkDevice       device,
     VkDeviceMemory memory)
 {
-    memory->Get()->Unmap(0, nullptr);
 }
