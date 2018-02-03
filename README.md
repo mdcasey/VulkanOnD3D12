@@ -13,12 +13,12 @@ VulkanOnD3D12 uses the CMake build system and requires a shadowed build root.
 `mkdir VulkanOnD3D12-build`<br/>
 `cd VulkanOnD3D12-build`<br/>
 
-For Windows UWP<br/>
-`cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_SYSTEM_NAME=WindowsStore
+*For Windows Desktop*<br/>
+`cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_SYSTEM_NAME=Windows
 -DCMAKE_SYSTEM_VERSION=10.0 ..\VulkanOnD3D12`
 
-For Windows Desktop<br/>
-`cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_SYSTEM_NAME=Windows
+*For Windows UWP*<br/>
+`cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_SYSTEM_NAME=WindowsStore
 -DCMAKE_SYSTEM_VERSION=10.0 ..\VulkanOnD3D12`
 
 This will generate a .sln project you can then open with Visual Studio.
