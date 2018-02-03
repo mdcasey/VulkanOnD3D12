@@ -30,7 +30,19 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateDevice(
         device = new VkDevice_T();
     }
 
-    HRESULT hr = D3D12CreateDevice(
+    HRESULT hr;
+#if !defined(NDEBUG)
+    ComPtr<ID3D12Debug> debug;
+    hr = D3D12GetDebugInterface(IID_PPV_ARGS(debug.GetAddressOf()));
+    if (FAILED(hr))
+    {
+        return VkResultFromHRESULT(hr);
+    }
+
+    debug->EnableDebugLayer();
+#endif // !defined(NDEBUG)
+
+    hr = D3D12CreateDevice(
         physicalDevice->Get(),
         D3D_FEATURE_LEVEL_11_0,
         IID_PPV_ARGS(device->GetAddressOf()));
