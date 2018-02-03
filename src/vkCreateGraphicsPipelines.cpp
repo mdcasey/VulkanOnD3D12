@@ -146,22 +146,22 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateGraphicsPipelines(
         pipelineDesc.CachedPSO          = pipelineCache->pipelineCache;
         pipelineDesc.Flags              = D3D12_PIPELINE_STATE_FLAG_NONE;
 
-        // search extended structures (Vulkan API structures always presents as sType, pNext in beginning) 
-        for (VkStructureType* stype=(VkStructureType*)pCreateInfos[i].pNext;stype!=nullptr;)
+        // search extended structures (Vulkan API structures always presents as sType, pNext in beginning)
+        for (VkStructureType* stype = (VkStructureType*)pCreateInfos[i].pNext; stype != nullptr;)
         {
-            if (*stype == VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_CONSERVATIVE_STATE_CREATE_INFO_EXT) { // enable conservative rasterization extension
+            if (*stype == VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_CONSERVATIVE_STATE_CREATE_INFO_EXT) // enable conservative rasterization extension
+            {
                 VkPipelineRasterizationConservativeStateCreateInfoEXT* csstruct = (VkPipelineRasterizationConservativeStateCreateInfoEXT*)stype;
 
-                // enable conservative rasterization ( need attention in underestimated conservative rasterization, because for enabling it require to modify binary shader code ) 
-                if (csstruct->conservativeRasterizationMode == VK_CONSERVATIVE_RASTERIZATION_MODE_OVERESTIMATE_EXT || 
+                // enable conservative rasterization ( need attention in underestimated conservative rasterization, because for enabling it require to modify binary shader code )
+                if (csstruct->conservativeRasterizationMode == VK_CONSERVATIVE_RASTERIZATION_MODE_OVERESTIMATE_EXT ||
                     csstruct->conservativeRasterizationMode == VK_CONSERVATIVE_RASTERIZATION_MODE_UNDERESTIMATE_EXT)
                 {
                     rasterizerState.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_ON;
                 }
             }
-            stype = (VkStructureType*)((uint8_t *)stype+sizeof(VkStructureType)); // get another structure 
+            stype = (VkStructureType*)((uint8_t*)stype + sizeof(VkStructureType)); // get another structure
         }
-
 
         for (uint32_t j = 0; j < pCreateInfos[i].stageCount; ++j)
         {
