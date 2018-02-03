@@ -30,12 +30,9 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateImage(
         image = new VkImage_T();
     }
 
-    D3D12_CLEAR_VALUE     clearValue    = {};
-    D3D12_RESOURCE_STATES resourceState = D3D12_RESOURCE_STATE_COPY_DEST;
-    D3D12_RESOURCE_FLAGS  resourceFlags = D3D12_RESOURCE_FLAG_NONE;
+    D3D12_RESOURCE_FLAGS resourceFlags = D3D12_RESOURCE_FLAG_NONE;
     if (pCreateInfo->usage & VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT)
     {
-        clearValue = CD3DX12_CLEAR_VALUE(VkFormatToD3D12(pCreateInfo->format), 1.0f, 0);
         resourceFlags |= D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
         resourceFlags |= D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE;
     }
@@ -73,19 +70,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateImage(
         break;
     }
 
-    D3D12_HEAP_PROPERTIES heapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
-
-    HRESULT hr = device->Get()->CreateCommittedResource(
-        &heapProperties,
-        D3D12_HEAP_FLAG_NONE,
-        &resourceDesc,
-        resourceState,
-        (resourceFlags & D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET) || (resourceFlags & D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL) ? &clearValue : nullptr,
-        IID_PPV_ARGS(image->GetAddressOf()));
-    if (FAILED(hr))
-    {
-        return VkResultFromHRESULT(hr);
-    }
+    image->resourceDesc = resourceDesc;
 
     *pImage = image;
 

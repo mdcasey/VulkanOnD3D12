@@ -87,13 +87,33 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateSwapchainKHR(
 
     for (uint32_t i = 0; i < pCreateInfo->minImageCount; ++i)
     {
-        ComPtr<ID3D12Resource> resource;
+        VkDeviceMemory memory = nullptr;
+        if (pAllocator)
+        {
+            memory = static_cast<VkDeviceMemory>(pAllocator->pfnAllocation(nullptr, sizeof(VkDeviceMemory_T), 8, VK_SYSTEM_ALLOCATION_SCOPE_DEVICE));
+        }
+        else
+        {
+            memory = new VkDeviceMemory_T();
+        }
 
-        HRESULT hr = swapChain->GetBuffer(i, IID_PPV_ARGS(resource.GetAddressOf()));
+        HRESULT hr = swapChain->GetBuffer(i, IID_PPV_ARGS(memory->resource.GetAddressOf()));
         if (FAILED(hr))
         {
             return VkResultFromHRESULT(hr);
         }
+
+        VkImage image = nullptr;
+        if (pAllocator)
+        {
+            image = static_cast<VkImage>(pAllocator->pfnAllocation(nullptr, sizeof(VkImage_T), 8, VK_SYSTEM_ALLOCATION_SCOPE_DEVICE));
+        }
+        else
+        {
+            image = new VkImage_T();
+        }
+
+        image->memory = memory;
 
         D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc = {};
         descriptorHeapDesc.Type                       = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
@@ -101,16 +121,11 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateSwapchainKHR(
         descriptorHeapDesc.Flags                      = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
         descriptorHeapDesc.NodeMask                   = device->physicalDevice->index;
 
-        ComPtr<ID3D12DescriptorHeap> descriptorHeap;
-        hr = device->device->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(descriptorHeap.GetAddressOf()));
+        hr = device->device->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(image->descriptorHeap.GetAddressOf()));
         if (FAILED(hr))
         {
             return VkResultFromHRESULT(hr);
         }
-
-        VkImage image         = new VkImage_T();
-        image->resource       = resource;
-        image->descriptorHeap = descriptorHeap;
 
         swapchain->images.push_back(image);
     }

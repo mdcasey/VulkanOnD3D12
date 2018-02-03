@@ -19,13 +19,12 @@ VKAPI_ATTR void VKAPI_CALL vkGetImageMemoryRequirements(
     VkImage               image,
     VkMemoryRequirements* pMemoryRequirements)
 {
-    auto desc = image->resource->GetDesc();
-    auto allocationInfo = device->device->GetResourceAllocationInfo(device->physicalDevice->index, 1, &desc);
+    auto allocationInfo = device->device->GetResourceAllocationInfo(device->physicalDevice->index, 1, &image->resourceDesc);
 
     VkMemoryRequirements memoryRequirements = {};
-    memoryRequirements.size = allocationInfo.SizeInBytes;
-    memoryRequirements.alignment = allocationInfo.Alignment;
-    memoryRequirements.memoryTypeBits = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+    memoryRequirements.size                 = allocationInfo.SizeInBytes;
+    memoryRequirements.alignment            = allocationInfo.Alignment;
+    memoryRequirements.memoryTypeBits       = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
 
     *pMemoryRequirements = memoryRequirements;
 }

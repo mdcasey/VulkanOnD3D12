@@ -158,6 +158,8 @@ struct VkDevice_T
     {
         physicalDevice = _physicalDevice;
     }
+
+    D3D12_FEATURE_DATA_D3D12_OPTIONS d3d12Options;
 };
 
 struct VkQueue_T
@@ -234,8 +236,8 @@ struct VkFence_T
 
 struct VkDeviceMemory_T
 {
-    ComPtr<ID3D12Heap> heap;
-    ComPtr<ID3D12Resource> placedResource;
+    ComPtr<ID3D12Heap>     heap;
+    ComPtr<ID3D12Resource> resource;
 };
 
 struct VkBuffer_T
@@ -255,18 +257,8 @@ struct VkBuffer_T
 
 struct VkImage_T
 {
-    ComPtr<ID3D12Resource> resource;
-
-    inline auto Get() const noexcept
-    {
-        return resource.Get();
-    }
-
-    inline auto GetAddressOf() noexcept
-    {
-        return resource.GetAddressOf();
-    }
-
+    VkDeviceMemory               memory;
+    D3D12_RESOURCE_DESC          resourceDesc;
     ComPtr<ID3D12DescriptorHeap> descriptorHeap;
 };
 

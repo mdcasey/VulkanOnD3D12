@@ -24,7 +24,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkMapMemory(
 {
     auto range = CD3DX12_RANGE(offset, offset + size);
 
-    HRESULT hr = memory->placedResource->Map(0, &range, ppData);
+    HRESULT hr = memory->resource->Map(0, &range, ppData);
     if (FAILED(hr))
     {
         return VkResultFromHRESULT(hr);
