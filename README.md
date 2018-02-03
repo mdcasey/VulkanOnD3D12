@@ -3,10 +3,27 @@
 VulkanOnD3D12 aims to make the Vulkan API available to platforms where only a
 D3D12 driver is available, such as Windows UWP.
 
-This project is currently a work in progress and as such, some or most things
-may not work at all.
+**This project is currently a work in progress and as such, some or most things
+may not work at all.**
 
-### Usage
+#### Building
+
+VulkanOnD3D12 uses the CMake build system and requires a shadowed build root.
+
+`mkdir VulkanOnD3D12-build`<br/>
+`cd VulkanOnD3D12-build`<br/>
+
+For Windows UWP<br/>
+`cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_SYSTEM_NAME=WindowsStore
+-DCMAKE_SYSTEM_VERSION=10.0 ..\VulkanOnD3D12`
+
+For Windows Desktop<br/>
+`cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_SYSTEM_NAME=Windows
+-DCMAKE_SYSTEM_VERSION=10.0 ..\VulkanOnD3D12`
+
+This will generate a .sln project you can then open with Visual Studio.
+
+#### Usage
 
 An example using the VK_CHB_uwp_surface extension to create a VkSurface for a
 Windows::UI::Core::CoreWindow.
