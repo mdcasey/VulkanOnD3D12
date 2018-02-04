@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.0)
 
 include_directories(../include)
 
+include_directories(spirv_cross)
+add_subdirectory(spirv_cross)
+
 if(${CMAKE_SYSTEM_NAME} STREQUAL Windows)
 add_subdirectory(cube)
 add_subdirectory(vulkaninfo)
@@ -22,4 +25,4 @@ set_source_files_properties(_vulkan.cpp PROPERTIES COMPILE_FLAGS "/Yc_vulkan.h")
 
 add_library(VulkanOnD3D12 SHARED ${HEADERS} ${SOURCES})
 set_property(TARGET VulkanOnD3D12 PROPERTY CXX_STANDARD 14)
-target_link_libraries(VulkanOnD3D12 d3d12 dxgi)
+target_link_libraries(VulkanOnD3D12 spirv_cross d3d12 d3dcompiler dxgi)

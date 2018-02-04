@@ -13,6 +13,10 @@
 // limitations under the License.
 
 #include "_vulkan.h"
+#include "spirv_hlsl.hpp"
+
+using namespace spv;
+using namespace spirv_cross;
 
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateShaderModule(
     VkDevice                        device,
@@ -30,8 +34,87 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateShaderModule(
         shaderModule = new VkShaderModule_T();
     }
 
-    shaderModule->bytecode.BytecodeLength  = pCreateInfo->codeSize;
-    shaderModule->bytecode.pShaderBytecode = pCreateInfo->pCode;
+    bool isSpirv = false;
+    if (pCreateInfo->codeSize >= 2)
+    {
+        switch (pCreateInfo->pCode[1])
+        {
+        case 0x10000: // SPIR-V 1.0
+        case 0x10100: // SPIR-V 1.1
+        case 0x10200: // SPIR-V 1.2
+            isSpirv = true;
+            break;
+        default:
+            break;
+        }
+    }
+
+    if (isSpirv)
+    {
+        CompilerHLSL compiler(pCreateInfo->pCode, pCreateInfo->codeSize);
+
+        auto options = compiler.get_options();
+
+        options.shader_model = 50;
+
+        compiler.set_options(options);
+
+        auto shaderSource = compiler.compile();
+
+        std::string hlslTarget;
+        switch (compiler.get_execution_model())
+        {
+        case ExecutionModelVertex:
+            hlslTarget = "vs_5_0";
+            break;
+        case ExecutionModelTessellationControl:
+            hlslTarget = "hs_5_0";
+            break;
+        case ExecutionModelTessellationEvaluation:
+            hlslTarget = "ds_5_0";
+            break;
+        case ExecutionModelGeometry:
+            hlslTarget = "gs_5_0";
+            break;
+        case ExecutionModelFragment:
+            hlslTarget = "ps_5_0";
+            break;
+        case ExecutionModelGLCompute:
+            hlslTarget = "cs_5_0";
+            break;
+        case ExecutionModelKernel:
+            hlslTarget = "cs_5_0";
+            break;
+        default:
+            return VK_ERROR_INCOMPATIBLE_DRIVER;
+        }
+
+        ComPtr<ID3DBlob> shaderBlob;
+        HRESULT          hr = D3DCompile(
+            shaderSource.data(),
+            shaderSource.size(),
+            nullptr,
+            nullptr,
+            nullptr,
+            "main",
+            hlslTarget.c_str(),
+            D3DCOMPILE_OPTIMIZATION_LEVEL3,
+            0,
+            shaderBlob.GetAddressOf(),
+            nullptr);
+        if (FAILED(hr))
+        {
+            return VkResultFromHRESULT(hr);
+        }
+
+        shaderModule->bytecode.BytecodeLength  = shaderBlob->GetBufferSize();
+        shaderModule->bytecode.pShaderBytecode = shaderBlob->GetBufferPointer();
+    }
+    else
+    {
+        shaderModule->bytecode.BytecodeLength  = pCreateInfo->codeSize;
+        shaderModule->bytecode.pShaderBytecode = pCreateInfo->pCode;
+    }
 
     *pShaderModule = shaderModule;
 
