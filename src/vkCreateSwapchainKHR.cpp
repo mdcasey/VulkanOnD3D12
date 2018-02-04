@@ -70,7 +70,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateSwapchainKHR(
             swapChain.GetAddressOf());
 #elif WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP
         HRESULT hr = device->physicalDevice->instance->dxgiFactory->CreateSwapChainForHwnd(
-            device->queues[0]->Get(),
+            device->queues[0]->commandQueue.Get(),
             pCreateInfo->surface->hwnd,
             &desc,
             nullptr,

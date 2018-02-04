@@ -71,167 +71,39 @@ struct VkInstance_T
 struct VkPhysicalDevice_T
 {
     ComPtr<IDXGIAdapter1> adapter;
-
-    inline auto Get() const noexcept
-    {
-        return adapter.Get();
-    }
-
-    inline auto GetAddressOf() noexcept
-    {
-        return adapter.GetAddressOf();
-    }
-
-    DXGI_ADAPTER_DESC1 adapterDesc;
-
-    inline auto GetAdapterDesc() const noexcept
-    {
-        return adapterDesc;
-    }
-
-    inline auto SetAdapterDesc(DXGI_ADAPTER_DESC1 _adapterDesc) noexcept
-    {
-        adapterDesc = _adapterDesc;
-    }
-
-    D3D12_FEATURE features;
-
-    inline auto GetFeatures() const noexcept
-    {
-        return features;
-    }
-
-    inline auto SetFeatures(D3D12_FEATURE _features) noexcept
-    {
-        features = _features;
-    }
-
-    uint32_t index;
-
-    inline auto GetIndex() const noexcept
-    {
-        return index;
-    }
-
-    inline auto SetIndex(uint32_t _index) noexcept
-    {
-        index = _index;
-    }
-
-    VkInstance instance;
-
-    inline auto GetInstance() const noexcept
-    {
-        return instance;
-    }
-
-    inline auto SetInstance(VkInstance _instance) noexcept
-    {
-        instance = _instance;
-    }
+    DXGI_ADAPTER_DESC1    adapterDesc;
+    D3D12_FEATURE         features;
+    uint32_t              index;
+    VkInstance            instance;
 };
 
 struct VkDevice_T
 {
-    ComPtr<ID3D12Device> device;
-
-    inline auto Get() const noexcept
-    {
-        return device.Get();
-    }
-
-    inline auto GetAddressOf() noexcept
-    {
-        return device.GetAddressOf();
-    }
-
-    std::vector<VkQueue> queues;
-
-    VkPhysicalDevice physicalDevice;
-
-    inline auto GetPhysicalDevice() const noexcept
-    {
-        return physicalDevice;
-    }
-
-    inline auto SetPhysicalDevice(VkPhysicalDevice _physicalDevice) noexcept
-    {
-        physicalDevice = _physicalDevice;
-    }
-
+    ComPtr<ID3D12Device>             device;
+    std::vector<VkQueue>             queues;
+    VkPhysicalDevice                 physicalDevice;
     D3D12_FEATURE_DATA_D3D12_OPTIONS d3d12Options;
 };
 
 struct VkQueue_T
 {
     ComPtr<ID3D12CommandQueue> commandQueue;
-
-    inline auto Get() const noexcept
-    {
-        return commandQueue.Get();
-    }
-
-    inline auto GetAddressOf() noexcept
-    {
-        return commandQueue.GetAddressOf();
-    }
 };
 
 struct VkSemaphore_T
 {
     ComPtr<ID3D12Fence> fence;
-
-    inline auto Get() const noexcept
-    {
-        return fence.Get();
-    }
-
-    inline auto GetAddressOf() noexcept
-    {
-        return fence.GetAddressOf();
-    }
 };
 
 struct VkCommandBuffer_T
 {
     ComPtr<ID3D12CommandList> commandList;
-
-    inline auto Get() const noexcept
-    {
-        return commandList.Get();
-    }
-
-    inline auto GetAddressOf() noexcept
-    {
-        return commandList.GetAddressOf();
-    }
-
-    ID3D12CommandAllocator* commandAllocator;
-
-    inline auto GetCommandAllocator() const noexcept
-    {
-        return commandAllocator;
-    }
-
-    inline auto SetCommandAllocator(ID3D12CommandAllocator* _commandAllocator) noexcept
-    {
-        commandAllocator = _commandAllocator;
-    }
+    ID3D12CommandAllocator*   commandAllocator;
 };
 
 struct VkFence_T
 {
     ComPtr<ID3D12Fence> fence;
-
-    inline auto Get() const noexcept
-    {
-        return fence.Get();
-    }
-
-    inline auto GetAddressOf() noexcept
-    {
-        return fence.GetAddressOf();
-    }
 };
 
 struct VkDeviceMemory_T
@@ -243,16 +115,6 @@ struct VkDeviceMemory_T
 struct VkBuffer_T
 {
     ComPtr<ID3D12Resource> resource;
-
-    inline auto Get() const noexcept
-    {
-        return resource.Get();
-    }
-
-    inline auto GetAddressOf() noexcept
-    {
-        return resource.GetAddressOf();
-    }
 };
 
 struct VkImage_T
@@ -325,16 +187,6 @@ struct VkFramebuffer_T
 struct VkCommandPool_T
 {
     ComPtr<ID3D12CommandAllocator> commandAllocator;
-
-    inline auto Get() const noexcept
-    {
-        return commandAllocator.Get();
-    }
-
-    inline auto GetAddressOf() noexcept
-    {
-        return commandAllocator.GetAddressOf();
-    }
 };
 
 struct VkSurfaceKHR_T
@@ -350,18 +202,7 @@ struct VkSurfaceKHR_T
 struct VkSwapchainKHR_T
 {
     ComPtr<IDXGISwapChain1> swapChain;
-
-    inline auto Get() const noexcept
-    {
-        return swapChain.Get();
-    }
-
-    inline auto GetAddressOf() noexcept
-    {
-        return swapChain.GetAddressOf();
-    }
-
-    std::vector<VkImage> images;
+    std::vector<VkImage>    images;
 };
 
 struct VkDebugReportCallbackEXT_T

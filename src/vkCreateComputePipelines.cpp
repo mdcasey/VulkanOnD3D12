@@ -37,11 +37,11 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateComputePipelines(
         D3D12_COMPUTE_PIPELINE_STATE_DESC pipelineDesc = {};
         pipelineDesc.pRootSignature                    = nullptr;
         pipelineDesc.CS                                = pCreateInfos[i].stage.module->bytecode;
-        pipelineDesc.NodeMask                          = device->GetPhysicalDevice()->GetIndex();
+        pipelineDesc.NodeMask                          = device->physicalDevice->index;
         pipelineDesc.CachedPSO                         = pipelineCache->pipelineCache;
         pipelineDesc.Flags                             = D3D12_PIPELINE_STATE_FLAG_NONE;
 
-        HRESULT hr = device->Get()->CreateComputePipelineState(&pipelineDesc, IID_PPV_ARGS(&pipeline->pipeline));
+        HRESULT hr = device->device->CreateComputePipelineState(&pipelineDesc, IID_PPV_ARGS(&pipeline->pipeline));
         if (FAILED(hr))
         {
             return VkResultFromHRESULT(hr);

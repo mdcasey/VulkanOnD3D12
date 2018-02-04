@@ -35,14 +35,15 @@ VKAPI_ATTR VkResult VKAPI_CALL vkEnumeratePhysicalDevices(
                 physicalDevice->adapter = adapter;
 
                 DXGI_ADAPTER_DESC1 adapterDesc;
-                HRESULT            hr = physicalDevice->Get()->GetDesc1(&adapterDesc);
+                HRESULT            hr = physicalDevice->adapter->GetDesc1(&adapterDesc);
                 if (FAILED(hr))
                 {
                     return VkResultFromHRESULT(hr);
                 }
-                physicalDevice->SetAdapterDesc(adapterDesc);
-                physicalDevice->SetIndex(curAdapter);
-                physicalDevice->SetInstance(instance);
+
+                physicalDevice->instance    = instance;
+                physicalDevice->adapterDesc = adapterDesc;
+                physicalDevice->index       = curAdapter;
 
                 pPhysicalDevices[curAdapter] = physicalDevice;
             }

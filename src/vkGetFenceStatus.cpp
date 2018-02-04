@@ -18,5 +18,5 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetFenceStatus(
     VkDevice device,
     VkFence  fence)
 {
-    return fence->Get()->GetCompletedValue() > 0 ? VK_SUCCESS : VK_NOT_READY;
+    return fence->fence->GetCompletedValue() > 0 ? VK_SUCCESS : VK_NOT_READY;
 }

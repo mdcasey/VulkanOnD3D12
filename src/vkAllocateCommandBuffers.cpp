@@ -23,13 +23,18 @@ VKAPI_ATTR VkResult VKAPI_CALL vkAllocateCommandBuffers(
     {
         VkCommandBuffer commandBuffer = new VkCommandBuffer_T();
 
-        HRESULT hr = device->Get()->CreateCommandList(device->GetPhysicalDevice()->GetIndex(), D3D12_COMMAND_LIST_TYPE_DIRECT, pAllocateInfo->commandPool->Get(), nullptr, IID_PPV_ARGS(commandBuffer->commandList.GetAddressOf()));
+        HRESULT hr = device->device->CreateCommandList(
+            device->physicalDevice->index,
+            D3D12_COMMAND_LIST_TYPE_DIRECT,
+            pAllocateInfo->commandPool->commandAllocator.Get(),
+            nullptr,
+            IID_PPV_ARGS(commandBuffer->commandList.GetAddressOf()));
         if (FAILED(hr))
         {
             return VkResultFromHRESULT(hr);
         }
 
-        commandBuffer->commandAllocator = pAllocateInfo->commandPool->Get();
+        commandBuffer->commandAllocator = pAllocateInfo->commandPool->commandAllocator.Get();
 
         pCommandBuffers[i] = commandBuffer;
     }

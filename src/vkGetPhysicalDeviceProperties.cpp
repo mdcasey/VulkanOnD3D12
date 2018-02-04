@@ -143,18 +143,18 @@ VKAPI_ATTR void VKAPI_CALL vkGetPhysicalDeviceProperties(
 
     VkPhysicalDeviceProperties properties = {};
     properties.apiVersion                 = VK_MAKE_VERSION(VK_VERSION_MAJOR(VK_API_VERSION_1_0), VK_VERSION_MINOR(VK_API_VERSION_1_0), VK_VERSION_PATCH(VK_HEADER_VERSION));
-    properties.driverVersion              = physicalDevice->GetAdapterDesc().Revision;
-    properties.vendorID                   = physicalDevice->GetAdapterDesc().VendorId;
-    properties.deviceID                   = physicalDevice->GetAdapterDesc().DeviceId;
+    properties.driverVersion              = physicalDevice->adapterDesc.Revision;
+    properties.vendorID                   = physicalDevice->adapterDesc.VendorId;
+    properties.deviceID                   = physicalDevice->adapterDesc.DeviceId;
     properties.deviceType                 = VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;
     properties.limits                     = limits;
     properties.sparseProperties           = sparseProperties;
 
     // Set the device name
-    wcstombs_s(nullptr, properties.deviceName, physicalDevice->GetAdapterDesc().Description, VK_MAX_PHYSICAL_DEVICE_NAME_SIZE);
+    wcstombs_s(nullptr, properties.deviceName, physicalDevice->adapterDesc.Description, VK_MAX_PHYSICAL_DEVICE_NAME_SIZE);
 
     // Set the pipeline cache UUID
-    snprintf(reinterpret_cast<char*>(&properties.pipelineCacheUUID), VK_UUID_SIZE, "D3D12-%i", physicalDevice->GetAdapterDesc().AdapterLuid.LowPart);
+    snprintf(reinterpret_cast<char*>(&properties.pipelineCacheUUID), VK_UUID_SIZE, "D3D12-%i", physicalDevice->adapterDesc.AdapterLuid.LowPart);
 
     *pProperties = properties;
 }

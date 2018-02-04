@@ -21,9 +21,9 @@ VKAPI_ATTR void VKAPI_CALL vkCmdBindIndexBuffer(
     VkIndexType     indexType)
 {
     D3D12_INDEX_BUFFER_VIEW indexBufferView = {};
-    indexBufferView.BufferLocation          = buffer->Get()->GetGPUVirtualAddress() + offset;
+    indexBufferView.BufferLocation          = buffer->resource->GetGPUVirtualAddress() + offset;
     indexBufferView.SizeInBytes;
     indexBufferView.Format;
 
-    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->Get())->IASetIndexBuffer(&indexBufferView);
+    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->commandList.Get())->IASetIndexBuffer(&indexBufferView);
 }

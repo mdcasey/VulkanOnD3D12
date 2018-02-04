@@ -30,10 +30,10 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateFence(
         fence = new VkFence_T();
     }
 
-    HRESULT hr = device->Get()->CreateFence(
+    HRESULT hr = device->device->CreateFence(
         pCreateInfo->flags & VK_FENCE_CREATE_SIGNALED_BIT ? 1 : 0,
         D3D12_FENCE_FLAG_NONE,
-        IID_PPV_ARGS(fence->GetAddressOf()));
+        IID_PPV_ARGS(fence->fence.GetAddressOf()));
     if (FAILED(hr))
     {
         return VkResultFromHRESULT(hr);

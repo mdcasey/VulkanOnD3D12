@@ -22,5 +22,5 @@ VKAPI_ATTR void VKAPI_CALL vkCmdDrawIndexed(
     int32_t         vertexOffset,
     uint32_t        firstInstance)
 {
-    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->Get())->DrawIndexedInstanced(indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
+    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->commandList.Get())->DrawIndexedInstanced(indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
 }

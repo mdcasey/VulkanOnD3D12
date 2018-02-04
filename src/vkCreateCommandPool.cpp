@@ -30,7 +30,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateCommandPool(
         commandPool = new VkCommandPool_T();
     }
 
-    HRESULT hr = device->Get()->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(commandPool->GetAddressOf()));
+    HRESULT hr = device->device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(commandPool->commandAllocator.GetAddressOf()));
     if (FAILED(hr))
     {
         return VkResultFromHRESULT(hr);

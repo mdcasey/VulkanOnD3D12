@@ -21,7 +21,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkResetFences(
 {
     for (uint32_t i = 0; i < fenceCount; ++i)
     {
-        HRESULT hr = device->Get()->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(pFences[i]->GetAddressOf()));
+        HRESULT hr = device->device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(pFences[i]->fence.GetAddressOf()));
         if (FAILED(hr))
         {
             return VkResultFromHRESULT(hr);

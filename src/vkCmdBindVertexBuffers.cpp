@@ -25,12 +25,12 @@ VKAPI_ATTR void VKAPI_CALL vkCmdBindVertexBuffers(
     for (uint32_t i = 0; i < bindingCount - firstBinding; ++i)
     {
         D3D12_VERTEX_BUFFER_VIEW vertexBufferView = {};
-        vertexBufferView.BufferLocation           = pBuffers[i]->Get()->GetGPUVirtualAddress() + pOffsets[i];
+        vertexBufferView.BufferLocation           = pBuffers[i]->resource->GetGPUVirtualAddress() + pOffsets[i];
         vertexBufferView.SizeInBytes;
         vertexBufferView.StrideInBytes;
 
         vertexBufferViews[i] = vertexBufferView;
     }
 
-    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->Get())->IASetVertexBuffers(firstBinding, bindingCount, vertexBufferViews.data());
+    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->commandList.Get())->IASetVertexBuffers(firstBinding, bindingCount, vertexBufferViews.data());
 }

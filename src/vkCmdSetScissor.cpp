@@ -26,5 +26,5 @@ VKAPI_ATTR void VKAPI_CALL vkCmdSetScissor(
         rects[i] = CD3DX12_RECT(pScissors[i].offset.x, pScissors[i].offset.y, pScissors[i].offset.x + pScissors[i].extent.width, pScissors[i].offset.y + pScissors[i].extent.height);
     }
 
-    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->Get())->RSSetScissorRects(scissorCount - firstScissor, rects.data());
+    static_cast<ID3D12GraphicsCommandList*>(commandBuffer->commandList.Get())->RSSetScissorRects(scissorCount - firstScissor, rects.data());
 }

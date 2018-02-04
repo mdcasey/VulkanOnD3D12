@@ -23,9 +23,9 @@ VKAPI_ATTR VkResult VKAPI_CALL vkWaitForFences(
 {
     for (uint32_t i = 0; i < fenceCount; ++i)
     {
-        if (pFences[i]->Get()->GetCompletedValue() == 0)
+        if (pFences[i]->fence->GetCompletedValue() == 0)
         {
-            HRESULT hr = device->queues[0]->Get()->Wait(pFences[i]->Get(), 1);
+            HRESULT hr = device->queues[0]->commandQueue->Wait(pFences[i]->fence.Get(), 1);
             if (FAILED(hr))
             {
                 return VkResultFromHRESULT(hr);
