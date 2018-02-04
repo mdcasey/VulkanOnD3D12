@@ -24,7 +24,7 @@ VKAPI_ATTR void VKAPI_CALL vkGetImageMemoryRequirements(
     VkMemoryRequirements memoryRequirements = {};
     memoryRequirements.size                 = allocationInfo.SizeInBytes;
     memoryRequirements.alignment            = allocationInfo.Alignment;
-    memoryRequirements.memoryTypeBits       = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+    memoryRequirements.memoryTypeBits       = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
 
     *pMemoryRequirements = memoryRequirements;
 }
