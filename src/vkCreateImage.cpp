@@ -37,11 +37,10 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateImage(
         resourceFlags |= D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE;
     }
 
-    D3D12_RESOURCE_DESC resourceDesc = {};
     switch (pCreateInfo->imageType)
     {
     case VK_IMAGE_TYPE_1D:
-        resourceDesc = CD3DX12_RESOURCE_DESC::Tex1D(
+        image->resourceDesc = CD3DX12_RESOURCE_DESC::Tex1D(
             VkFormatToD3D12(pCreateInfo->format),
             pCreateInfo->extent.width,
             static_cast<UINT16>(pCreateInfo->arrayLayers),
@@ -49,7 +48,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateImage(
             resourceFlags);
         break;
     case VK_IMAGE_TYPE_2D:
-        resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(
+        image->resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(
             VkFormatToD3D12(pCreateInfo->format),
             pCreateInfo->extent.width,
             pCreateInfo->extent.height,
@@ -60,7 +59,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateImage(
             resourceFlags);
         break;
     case VK_IMAGE_TYPE_3D:
-        resourceDesc = CD3DX12_RESOURCE_DESC::Tex3D(
+        image->resourceDesc = CD3DX12_RESOURCE_DESC::Tex3D(
             VkFormatToD3D12(pCreateInfo->format),
             pCreateInfo->extent.width,
             pCreateInfo->extent.height,
@@ -69,8 +68,6 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateImage(
             resourceFlags);
         break;
     }
-
-    image->resourceDesc = resourceDesc;
 
     *pImage = image;
 

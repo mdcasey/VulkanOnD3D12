@@ -20,4 +20,12 @@ VKAPI_ATTR void VKAPI_CALL vkGetImageSubresourceLayout(
     const VkImageSubresource* pSubresource,
     VkSubresourceLayout*      pLayout)
 {
+    VkSubresourceLayout layout = {};
+    layout.offset              = 0;
+    layout.size                = image->memory->allocationSize;
+    layout.rowPitch            = 1024;
+    layout.arrayPitch          = image->memory->allocationSize;
+    layout.depthPitch          = image->memory->allocationSize;
+
+    *pLayout = layout;
 }

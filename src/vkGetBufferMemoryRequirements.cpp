@@ -19,4 +19,12 @@ VKAPI_ATTR void VKAPI_CALL vkGetBufferMemoryRequirements(
     VkBuffer              buffer,
     VkMemoryRequirements* pMemoryRequirements)
 {
+    auto allocationInfo = device->device->GetResourceAllocationInfo(device->physicalDevice->index, 1, &buffer->resourceDesc);
+
+    VkMemoryRequirements memoryRequirements = {};
+    memoryRequirements.size                 = allocationInfo.SizeInBytes;
+    memoryRequirements.alignment            = allocationInfo.Alignment;
+    memoryRequirements.memoryTypeBits       = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+
+    *pMemoryRequirements = memoryRequirements;
 }

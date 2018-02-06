@@ -20,5 +20,36 @@ VKAPI_ATTR VkResult VKAPI_CALL vkBindBufferMemory(
     VkDeviceMemory memory,
     VkDeviceSize   memoryOffset)
 {
+    // Adapters that only support heap tier 1 must set two flags.
+    // We recreate the heap here since we're using buffers.
+    // https://msdn.microsoft.com/en-us/library/windows/desktop/dn986730(v=vs.85).aspx
+    if (device->d3d12Options.ResourceHeapTier == D3D12_RESOURCE_HEAP_TIER_1)
+    {
+        D3D12_HEAP_DESC heapDesc = memory->heap->GetDesc();
+        heapDesc.Flags           = D3D12_HEAP_FLAG_DENY_RT_DS_TEXTURES | D3D12_HEAP_FLAG_DENY_NON_RT_DS_TEXTURES;
+
+        HRESULT hr = device->device->CreateHeap(
+            &heapDesc,
+            IID_PPV_ARGS(memory->heap.GetAddressOf()));
+        if (FAILED(hr))
+        {
+            return VkResultFromHRESULT(hr);
+        }
+    }
+
+    HRESULT hr = device->device->CreatePlacedResource(
+        memory->heap.Get(),
+        memoryOffset,
+        &buffer->resourceDesc,
+        D3D12_RESOURCE_STATE_COMMON,
+        nullptr,
+        IID_PPV_ARGS(memory->resource.GetAddressOf()));
+    if (FAILED(hr))
+    {
+        return VkResultFromHRESULT(hr);
+    }
+
+    buffer->memory = memory;
+
     return VK_SUCCESS;
 }

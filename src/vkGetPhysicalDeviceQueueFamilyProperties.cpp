@@ -21,19 +21,21 @@ VKAPI_ATTR void VKAPI_CALL vkGetPhysicalDeviceQueueFamilyProperties(
 {
     if (pQueueFamilyProperties)
     {
-        VkExtent3D minImageTransferGranularity = {};
-        minImageTransferGranularity.width      = 0;
-        minImageTransferGranularity.height     = 0;
-        minImageTransferGranularity.depth      = 0;
-
         VkQueueFamilyProperties queueFamilyProperties     = {};
         queueFamilyProperties.queueFlags                  = VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT;
         queueFamilyProperties.queueCount                  = 1;
         queueFamilyProperties.timestampValidBits          = 0;
-        queueFamilyProperties.minImageTransferGranularity = minImageTransferGranularity;
+        queueFamilyProperties.minImageTransferGranularity = VkExtent3D{1, 1, 1};
+
+        VkQueueFamilyProperties copyQueueFamilyProperties     = {};
+        copyQueueFamilyProperties.queueFlags                  = VK_QUEUE_TRANSFER_BIT;
+        copyQueueFamilyProperties.queueCount                  = 1;
+        copyQueueFamilyProperties.timestampValidBits          = 0;
+        copyQueueFamilyProperties.minImageTransferGranularity = VkExtent3D{1, 1, 1};
 
         pQueueFamilyProperties[0] = queueFamilyProperties;
+        pQueueFamilyProperties[1] = copyQueueFamilyProperties;
     }
 
-    *pQueueFamilyPropertyCount = 1;
+    *pQueueFamilyPropertyCount = 2;
 }

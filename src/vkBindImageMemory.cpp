@@ -43,7 +43,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkBindImageMemory(
         memory->heap.Get(),
         memoryOffset,
         &image->resourceDesc,
-        D3D12_RESOURCE_STATE_GENERIC_READ,
+        D3D12_RESOURCE_STATE_COMMON,
         nullptr,
         IID_PPV_ARGS(memory->resource.GetAddressOf()));
     if (FAILED(hr))

@@ -30,15 +30,9 @@ VKAPI_ATTR VkResult VKAPI_CALL vkAllocateMemory(
         memory = new VkDeviceMemory_T();
     }
 
-    D3D12_HEAP_DESC heapDesc                 = {};
-    heapDesc.SizeInBytes                     = pAllocateInfo->allocationSize;
-    heapDesc.Properties.Type                 = D3D12_HEAP_TYPE_DEFAULT;
-    heapDesc.Properties.CPUPageProperty      = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-    heapDesc.Properties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-    heapDesc.Properties.CreationNodeMask     = device->physicalDevice->index;
-    heapDesc.Properties.VisibleNodeMask      = device->physicalDevice->index;
-    heapDesc.Alignment                       = D3D12_DEFAULT_RESOURCE_PLACEMENT_ALIGNMENT;
-    heapDesc.Flags                           = D3D12_HEAP_FLAG_NONE;
+    CD3DX12_HEAP_DESC heapDesc(pAllocateInfo->allocationSize, D3D12_HEAP_TYPE_DEFAULT);
+    heapDesc.Properties.CreationNodeMask = device->physicalDevice->index;
+    heapDesc.Properties.VisibleNodeMask  = device->physicalDevice->index;
 
     // Adapters that only support heap tier 1 must set two flags.
     // https://msdn.microsoft.com/en-us/library/windows/desktop/dn986730(v=vs.85).aspx
@@ -55,6 +49,8 @@ VKAPI_ATTR VkResult VKAPI_CALL vkAllocateMemory(
     {
         return VkResultFromHRESULT(hr);
     }
+
+    memory->allocationSize = pAllocateInfo->allocationSize;
 
     *pMemory = memory;
 

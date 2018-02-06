@@ -14,6 +14,8 @@
 
 #include "_vulkan.h"
 
+#include <algorithm>
+
 VKAPI_ATTR VkResult VKAPI_CALL vkMapMemory(
     VkDevice         device,
     VkDeviceMemory   memory,
@@ -22,13 +24,31 @@ VKAPI_ATTR VkResult VKAPI_CALL vkMapMemory(
     VkMemoryMapFlags flags,
     void**           ppData)
 {
-    auto range = CD3DX12_RANGE(offset, offset + size);
+    VkDeviceSize creationSize = size;
+    if (size == VK_WHOLE_SIZE)
+    {
+        creationSize = memory->allocationSize;
+    }
 
-    HRESULT hr = memory->resource->Map(0, &range, ppData);
+    HRESULT hr = device->device->CreateCommittedResource(
+        &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+        D3D12_HEAP_FLAG_NONE,
+        &CD3DX12_RESOURCE_DESC::Buffer(creationSize),
+        D3D12_RESOURCE_STATE_GENERIC_READ,
+        nullptr,
+        IID_PPV_ARGS(memory->resourceUpload.GetAddressOf()));
     if (FAILED(hr))
     {
         return VkResultFromHRESULT(hr);
     }
+
+    hr = memory->resourceUpload->Map(0, &CD3DX12_RANGE(offset, offset + creationSize), &memory->data);
+    if (FAILED(hr))
+    {
+        return VkResultFromHRESULT(hr);
+    }
+
+    *ppData = memory->data;
 
     return VK_SUCCESS;
 }

@@ -23,6 +23,6 @@ VKAPI_ATTR void VKAPI_CALL vkCmdCopyBuffer(
 {
     for (uint32_t i = 0; i < regionCount; ++i)
     {
-        static_cast<ID3D12GraphicsCommandList*>(commandBuffer->commandList.Get())->CopyBufferRegion(dstBuffer->resource.Get(), pRegions[i].dstOffset, srcBuffer->resource.Get(), pRegions[i].srcOffset, pRegions[i].size);
+        static_cast<ID3D12GraphicsCommandList*>(commandBuffer->commandList.Get())->CopyBufferRegion(dstBuffer->memory->resource.Get(), pRegions[i].dstOffset, srcBuffer->memory->resource.Get(), pRegions[i].srcOffset, pRegions[i].size);
     }
 }

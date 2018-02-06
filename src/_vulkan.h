@@ -110,11 +110,16 @@ struct VkDeviceMemory_T
 {
     ComPtr<ID3D12Heap>     heap;
     ComPtr<ID3D12Resource> resource;
+    ComPtr<ID3D12Resource> resourceUpload;
+    VkDeviceSize           allocationSize;
+    void*                  data;
 };
 
 struct VkBuffer_T
 {
-    ComPtr<ID3D12Resource> resource;
+    VkDeviceMemory               memory;
+    D3D12_RESOURCE_DESC          resourceDesc;
+    ComPtr<ID3D12DescriptorHeap> descriptorHeap;
 };
 
 struct VkImage_T

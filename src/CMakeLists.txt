@@ -10,7 +10,7 @@ add_subdirectory(cube)
 add_subdirectory(vulkaninfo)
 endif()
 
-add_definitions("/DUNICODE /D_UNICODE /W4 /WX /Yu_vulkan.h /wd4100 /wd4324")
+add_definitions("/DUNICODE /D_UNICODE /DNOMINMAX /DWIN32_LEAN_AND_MEAN /W4 /WX /Yu_vulkan.h /wd4100 /wd4238 /wd4324")
 add_definitions("/DVULKANOND3D12_BUILD")
 if(${CMAKE_SYSTEM_NAME} STREQUAL Windows)
 add_definitions("/DVK_USE_PLATFORM_WIN32_KHR")

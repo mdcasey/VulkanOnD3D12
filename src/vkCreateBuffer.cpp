@@ -30,6 +30,8 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateBuffer(
         buffer = new VkBuffer_T();
     }
 
+    buffer->resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(pCreateInfo->size);
+
     *pBuffer = buffer;
 
     return VK_SUCCESS;
