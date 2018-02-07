@@ -63,7 +63,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateSwapchainKHR(
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PC_APP
         HRESULT hr = device->physicalDevice->instance->dxgiFactory->CreateSwapChainForCoreWindow(
-            device->queues[0]->Get(),
+            device->queues[0]->commandQueue.Get(),
             pCreateInfo->surface->window,
             &desc,
             nullptr,
