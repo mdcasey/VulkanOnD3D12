@@ -6,6 +6,14 @@ D3D12 driver is available, such as Windows UWP.
 **This project is currently a work in progress and as such, some or most things
 may not work at all.**
 
+#### Build Status
+
+*Windows Desktop*<br/>
+![Build Status](https://chabloom.visualstudio.com/_apis/public/build/definitions/062659ef-1d74-4fbd-9fd0-8b2b0f730cac/3/badge)
+
+*Windows UWP*<br/>
+![Build Status](https://chabloom.visualstudio.com/_apis/public/build/definitions/062659ef-1d74-4fbd-9fd0-8b2b0f730cac/5/badge)
+
 #### Building
 
 VulkanOnD3D12 uses the CMake build system and requires a shadowed build root.
