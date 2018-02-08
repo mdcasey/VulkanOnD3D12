@@ -20,5 +20,44 @@ VKAPI_ATTR VkResult VKAPI_CALL vkQueueSubmit(
     const VkSubmitInfo* pSubmits,
     VkFence             fence)
 {
+    for (uint32_t i = 0; i < submitCount; ++i)
+    {
+        if (pSubmits[i].waitSemaphoreCount > 0)
+        {
+            std::vector<HANDLE> waitSemaphoreHandles(pSubmits[i].waitSemaphoreCount);
+            for (uint32_t j = 0; j < pSubmits[i].waitSemaphoreCount; ++j)
+            {
+                waitSemaphoreHandles[j] = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+                pSubmits[i].pWaitSemaphores[j]->fence->SetEventOnCompletion(1, waitSemaphoreHandles[j]);
+            }
+            WaitForMultipleObjects(pSubmits[i].waitSemaphoreCount, waitSemaphoreHandles.data(), TRUE, INFINITE);
+        }
+
+        std::vector<ID3D12CommandList*> commandLists;
+        for (uint32_t j = 0; j < pSubmits[i].commandBufferCount; ++j)
+        {
+            commandLists.push_back(pSubmits[i].pCommandBuffers[j]->commandList.Get());
+        }
+
+        queue->commandQueue->ExecuteCommandLists(static_cast<UINT>(commandLists.size()), commandLists.data());
+
+        if (pSubmits[i].signalSemaphoreCount > 0)
+        {
+            for (uint32_t j = 0; j < pSubmits[i].signalSemaphoreCount; ++j)
+            {
+                queue->commandQueue->Signal(pSubmits[i].pSignalSemaphores[j]->fence.Get(), 1);
+            }
+        }
+
+        if (fence)
+        {
+            HRESULT hr = queue->commandQueue->Signal(fence->fence.Get(), 1);
+            if (FAILED(hr))
+            {
+                return VkResultFromHRESULT(hr);
+            }
+        }
+    }
+
     return VK_SUCCESS;
 }
