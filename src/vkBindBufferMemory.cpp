@@ -23,7 +23,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkBindBufferMemory(
     // Adapters that only support heap tier 1 must set two flags.
     // We recreate the heap here since we're using buffers.
     // https://msdn.microsoft.com/en-us/library/windows/desktop/dn986730(v=vs.85).aspx
-    if (device->d3d12Options.ResourceHeapTier == D3D12_RESOURCE_HEAP_TIER_1)
+    if (device->dataOptions.ResourceHeapTier == D3D12_RESOURCE_HEAP_TIER_1)
     {
         D3D12_HEAP_DESC heapDesc = memory->heap->GetDesc();
         heapDesc.Flags           = D3D12_HEAP_FLAG_DENY_RT_DS_TEXTURES | D3D12_HEAP_FLAG_DENY_NON_RT_DS_TEXTURES;

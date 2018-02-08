@@ -34,12 +34,13 @@ inline VkResult VkResultFromHRESULT(HRESULT hr)
 {
     switch (hr)
     {
-    case 0:
-        break;
+    case ERROR_DEVICE_REMOVED:
+        return VK_ERROR_DEVICE_LOST;
+    case E_OUTOFMEMORY:
+        return VK_ERROR_OUT_OF_DEVICE_MEMORY;
     default:
-        break;
+        return VK_ERROR_INCOMPATIBLE_DRIVER;
     }
-    return VK_ERROR_INCOMPATIBLE_DRIVER;
 }
 
 inline DXGI_ALPHA_MODE VkCompositeAlphaFlagBitsKHRToDXGI_ALPHA_MODE(VkCompositeAlphaFlagBitsKHR flags)
@@ -79,10 +80,11 @@ struct VkPhysicalDevice_T
 
 struct VkDevice_T
 {
-    ComPtr<ID3D12Device>             device;
-    std::vector<VkQueue>             queues;
-    VkPhysicalDevice                 physicalDevice;
-    D3D12_FEATURE_DATA_D3D12_OPTIONS d3d12Options;
+    ComPtr<ID3D12Device>              device;
+    std::vector<VkQueue>              queues;
+    VkPhysicalDevice                  physicalDevice;
+    D3D12_FEATURE_DATA_D3D12_OPTIONS  dataOptions;
+    D3D12_FEATURE_DATA_ROOT_SIGNATURE dataRootSignature;
 };
 
 struct VkQueue_T
@@ -104,6 +106,7 @@ struct VkCommandBuffer_T
 struct VkFence_T
 {
     ComPtr<ID3D12Fence> fence;
+    UINT64              fenceValue;
 };
 
 struct VkDeviceMemory_T
@@ -158,10 +161,12 @@ struct VkPipelineCache_T
 
 struct VkPipelineLayout_T
 {
+    D3D12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDesc;
 };
 
 struct VkRenderPass_T
 {
+    ComPtr<ID3D12RootSignature> rootSignature;
 };
 
 struct VkPipeline_T

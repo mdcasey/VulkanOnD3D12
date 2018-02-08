@@ -23,7 +23,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkBindImageMemory(
     // Adapters that only support heap tier 1 must set two flags.
     // We recreate the heap here if using for render target or depth stencil.
     // https://msdn.microsoft.com/en-us/library/windows/desktop/dn986730(v=vs.85).aspx
-    if (device->d3d12Options.ResourceHeapTier == D3D12_RESOURCE_HEAP_TIER_1 &&
+    if (device->dataOptions.ResourceHeapTier == D3D12_RESOURCE_HEAP_TIER_1 &&
         (image->resourceDesc.Flags & D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET ||
          image->resourceDesc.Flags & D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL))
     {

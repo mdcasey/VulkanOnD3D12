@@ -98,43 +98,38 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateGraphicsPipelines(
             pipeline = new VkPipeline_T();
         }
 
-        D3D12_RASTERIZER_DESC rasterizerState = {};
-        rasterizerState.FillMode              = VK_POLYGON_MODE_FILL ? D3D12_FILL_MODE_SOLID : D3D12_FILL_MODE_WIREFRAME;
-        rasterizerState.CullMode              = VkCullModeToD3D12(pCreateInfos[i].pRasterizationState->cullMode);
-        rasterizerState.FrontCounterClockwise = pCreateInfos[i].pRasterizationState->frontFace == VK_FRONT_FACE_COUNTER_CLOCKWISE ? TRUE : FALSE;
-        rasterizerState.DepthBias;
-        rasterizerState.DepthBiasClamp       = pCreateInfos[i].pRasterizationState->depthBiasClamp;
-        rasterizerState.SlopeScaledDepthBias = pCreateInfos[i].pRasterizationState->depthBiasSlopeFactor;
-        rasterizerState.DepthClipEnable      = pCreateInfos[i].pRasterizationState->depthClampEnable ? FALSE : TRUE;
-        rasterizerState.MultisampleEnable;
-        rasterizerState.AntialiasedLineEnable;
-        rasterizerState.ForcedSampleCount;
-        rasterizerState.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
-
-        D3D12_DEPTH_STENCIL_DESC depthStencilState     = {};
-        depthStencilState.DepthEnable                  = pCreateInfos[i].pDepthStencilState->depthTestEnable;
-        depthStencilState.DepthWriteMask               = pCreateInfos[i].pDepthStencilState->depthWriteEnable ? D3D12_DEPTH_WRITE_MASK_ALL : D3D12_DEPTH_WRITE_MASK_ZERO;
-        depthStencilState.DepthFunc                    = VkCompareOpToD3D12(pCreateInfos[i].pDepthStencilState->depthCompareOp);
-        depthStencilState.StencilEnable                = pCreateInfos[i].pDepthStencilState->stencilTestEnable;
-        depthStencilState.StencilReadMask              = D3D12_DEFAULT_STENCIL_READ_MASK;
-        depthStencilState.StencilWriteMask             = D3D12_DEFAULT_STENCIL_WRITE_MASK;
-        depthStencilState.FrontFace.StencilFailOp      = VkStencilOpToD3D12(pCreateInfos[i].pDepthStencilState->front.failOp);
-        depthStencilState.FrontFace.StencilDepthFailOp = VkStencilOpToD3D12(pCreateInfos[i].pDepthStencilState->front.depthFailOp);
-        depthStencilState.FrontFace.StencilPassOp      = VkStencilOpToD3D12(pCreateInfos[i].pDepthStencilState->front.passOp);
-        depthStencilState.FrontFace.StencilFunc        = VkCompareOpToD3D12(pCreateInfos[i].pDepthStencilState->front.compareOp);
-        depthStencilState.FrontFace.StencilFailOp      = VkStencilOpToD3D12(pCreateInfos[i].pDepthStencilState->back.failOp);
-        depthStencilState.FrontFace.StencilDepthFailOp = VkStencilOpToD3D12(pCreateInfos[i].pDepthStencilState->back.depthFailOp);
-        depthStencilState.FrontFace.StencilPassOp      = VkStencilOpToD3D12(pCreateInfos[i].pDepthStencilState->back.passOp);
-        depthStencilState.FrontFace.StencilFunc        = VkCompareOpToD3D12(pCreateInfos[i].pDepthStencilState->back.compareOp);
-
         D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc = {};
-        pipelineDesc.pRootSignature;
+        pipelineDesc.pRootSignature                     = pCreateInfos[i].renderPass->rootSignature.Get();
         pipelineDesc.StreamOutput;
         pipelineDesc.BlendState;
         pipelineDesc.SampleMask;
-        pipelineDesc.RasterizerState   = rasterizerState;
-        pipelineDesc.DepthStencilState = depthStencilState;
-        pipelineDesc.InputLayout;
+        pipelineDesc.RasterizerState.FillMode              = VK_POLYGON_MODE_FILL ? D3D12_FILL_MODE_SOLID : D3D12_FILL_MODE_WIREFRAME;
+        pipelineDesc.RasterizerState.CullMode              = VkCullModeToD3D12(pCreateInfos[i].pRasterizationState->cullMode);
+        pipelineDesc.RasterizerState.FrontCounterClockwise = pCreateInfos[i].pRasterizationState->frontFace == VK_FRONT_FACE_COUNTER_CLOCKWISE ? TRUE : FALSE;
+        pipelineDesc.RasterizerState.DepthBias;
+        pipelineDesc.RasterizerState.DepthBiasClamp       = pCreateInfos[i].pRasterizationState->depthBiasClamp;
+        pipelineDesc.RasterizerState.SlopeScaledDepthBias = pCreateInfos[i].pRasterizationState->depthBiasSlopeFactor;
+        pipelineDesc.RasterizerState.DepthClipEnable      = pCreateInfos[i].pRasterizationState->depthClampEnable ? FALSE : TRUE;
+        pipelineDesc.RasterizerState.MultisampleEnable;
+        pipelineDesc.RasterizerState.AntialiasedLineEnable;
+        pipelineDesc.RasterizerState.ForcedSampleCount;
+        pipelineDesc.RasterizerState.ConservativeRaster             = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
+        pipelineDesc.DepthStencilState.DepthEnable                  = pCreateInfos[i].pDepthStencilState->depthTestEnable;
+        pipelineDesc.DepthStencilState.DepthWriteMask               = pCreateInfos[i].pDepthStencilState->depthWriteEnable ? D3D12_DEPTH_WRITE_MASK_ALL : D3D12_DEPTH_WRITE_MASK_ZERO;
+        pipelineDesc.DepthStencilState.DepthFunc                    = VkCompareOpToD3D12(pCreateInfos[i].pDepthStencilState->depthCompareOp);
+        pipelineDesc.DepthStencilState.StencilEnable                = pCreateInfos[i].pDepthStencilState->stencilTestEnable;
+        pipelineDesc.DepthStencilState.StencilReadMask              = D3D12_DEFAULT_STENCIL_READ_MASK;
+        pipelineDesc.DepthStencilState.StencilWriteMask             = D3D12_DEFAULT_STENCIL_WRITE_MASK;
+        pipelineDesc.DepthStencilState.FrontFace.StencilFailOp      = VkStencilOpToD3D12(pCreateInfos[i].pDepthStencilState->front.failOp);
+        pipelineDesc.DepthStencilState.FrontFace.StencilDepthFailOp = VkStencilOpToD3D12(pCreateInfos[i].pDepthStencilState->front.depthFailOp);
+        pipelineDesc.DepthStencilState.FrontFace.StencilPassOp      = VkStencilOpToD3D12(pCreateInfos[i].pDepthStencilState->front.passOp);
+        pipelineDesc.DepthStencilState.FrontFace.StencilFunc        = VkCompareOpToD3D12(pCreateInfos[i].pDepthStencilState->front.compareOp);
+        pipelineDesc.DepthStencilState.FrontFace.StencilFailOp      = VkStencilOpToD3D12(pCreateInfos[i].pDepthStencilState->back.failOp);
+        pipelineDesc.DepthStencilState.FrontFace.StencilDepthFailOp = VkStencilOpToD3D12(pCreateInfos[i].pDepthStencilState->back.depthFailOp);
+        pipelineDesc.DepthStencilState.FrontFace.StencilPassOp      = VkStencilOpToD3D12(pCreateInfos[i].pDepthStencilState->back.passOp);
+        pipelineDesc.DepthStencilState.FrontFace.StencilFunc        = VkCompareOpToD3D12(pCreateInfos[i].pDepthStencilState->back.compareOp);
+        pipelineDesc.InputLayout.pInputElementDescs;
+        pipelineDesc.InputLayout.NumElements;
         pipelineDesc.IBStripCutValue;
         pipelineDesc.PrimitiveTopologyType;
         pipelineDesc.NumRenderTargets;
@@ -157,7 +152,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateGraphicsPipelines(
                 if (csstruct->conservativeRasterizationMode == VK_CONSERVATIVE_RASTERIZATION_MODE_OVERESTIMATE_EXT ||
                     csstruct->conservativeRasterizationMode == VK_CONSERVATIVE_RASTERIZATION_MODE_UNDERESTIMATE_EXT)
                 {
-                    rasterizerState.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_ON;
+                    pipelineDesc.RasterizerState.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_ON;
                 }
             }
             stype = (VkStructureType*)((uint8_t*)stype + sizeof(VkStructureType)); // get another structure

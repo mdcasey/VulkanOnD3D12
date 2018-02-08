@@ -30,6 +30,13 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreatePipelineLayout(
         pipelineLayout = new VkPipelineLayout_T();
     }
 
+    if (device->dataRootSignature.HighestVersion >= D3D_ROOT_SIGNATURE_VERSION_1_1)
+    {
+    }
+    else
+    {
+    }
+
     *pPipelineLayout = pipelineLayout;
 
     return VK_SUCCESS;

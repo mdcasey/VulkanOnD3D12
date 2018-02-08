@@ -25,11 +25,15 @@ VKAPI_ATTR VkResult VKAPI_CALL vkWaitForFences(
     {
         if (pFences[i]->fence->GetCompletedValue() == 0)
         {
-            HRESULT hr = device->queues[0]->commandQueue->Wait(pFences[i]->fence.Get(), 1);
+            auto fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+
+            HRESULT hr = pFences[i]->fence->SetEventOnCompletion(pFences[i]->fenceValue, fenceEvent);
             if (FAILED(hr))
             {
                 return VkResultFromHRESULT(hr);
             }
+
+            WaitForSingleObjectEx(fenceEvent, INFINITE, FALSE);
         }
     }
     return VK_SUCCESS;
