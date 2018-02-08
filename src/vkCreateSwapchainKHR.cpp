@@ -130,7 +130,8 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateSwapchainKHR(
         swapchain->images.push_back(image);
     }
 
-    swapchain->swapChain = swapChain;
+    swapchain->imageIndex = 0;
+    swapchain->swapChain  = swapChain;
 
     *pSwapchain = swapchain;
 

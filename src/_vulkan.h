@@ -213,6 +213,7 @@ struct VkSwapchainKHR_T
 {
     ComPtr<IDXGISwapChain1> swapChain;
     std::vector<VkImage>    images;
+    uint32_t                imageIndex;
 };
 
 struct VkDebugReportCallbackEXT_T

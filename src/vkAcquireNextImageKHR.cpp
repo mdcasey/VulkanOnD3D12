@@ -22,5 +22,16 @@ VKAPI_ATTR VkResult VKAPI_CALL vkAcquireNextImageKHR(
     VkFence        fence,
     uint32_t*      pImageIndex)
 {
+    *pImageIndex = ++swapchain->imageIndex;
+
+    if (semaphore)
+    {
+        semaphore->fence->Signal(1);
+    }
+    if (fence)
+    {
+        fence->fence->Signal(1);
+    }
+
     return VK_SUCCESS;
 }
