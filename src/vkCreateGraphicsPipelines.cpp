@@ -78,6 +78,52 @@ constexpr inline D3D12_STENCIL_OP VkStencilOpToD3D12(VkStencilOp stencilOp)
     return D3D12_STENCIL_OP_KEEP;
 }
 
+constexpr inline D3D12_PRIMITIVE_TOPOLOGY_TYPE VkPrimitiveTopologyToD3D12(VkPrimitiveTopology primitiveTopology)
+{
+    switch (primitiveTopology)
+    {
+    case VK_PRIMITIVE_TOPOLOGY_POINT_LIST:
+        return D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
+    case VK_PRIMITIVE_TOPOLOGY_LINE_LIST:
+        return D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+    case VK_PRIMITIVE_TOPOLOGY_LINE_STRIP:
+        return D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+    case VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST:
+        return D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+    case VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP:
+        return D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+    case VK_PRIMITIVE_TOPOLOGY_TRIANGLE_FAN:
+        return D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+    case VK_PRIMITIVE_TOPOLOGY_LINE_LIST_WITH_ADJACENCY:
+        return D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+    case VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP_WITH_ADJACENCY:
+        return D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+    }
+    return D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+}
+
+constexpr inline UINT VkSampleCountFlagBitsToD3D12(VkSampleCountFlagBits sampleCountBits)
+{
+    switch (sampleCountBits)
+    {
+    case VK_SAMPLE_COUNT_1_BIT:
+        return 1;
+    case VK_SAMPLE_COUNT_2_BIT:
+        return 2;
+    case VK_SAMPLE_COUNT_4_BIT:
+        return 4;
+    case VK_SAMPLE_COUNT_8_BIT:
+        return 8;
+    case VK_SAMPLE_COUNT_16_BIT:
+        return 16;
+    case VK_SAMPLE_COUNT_32_BIT:
+        return 32;
+    case VK_SAMPLE_COUNT_64_BIT:
+        return 64;
+    }
+    return 1;
+}
+
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateGraphicsPipelines(
     VkDevice                            device,
     VkPipelineCache                     pipelineCache,
@@ -103,16 +149,16 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateGraphicsPipelines(
         pipelineDesc.StreamOutput;
         pipelineDesc.BlendState;
         pipelineDesc.SampleMask;
-        pipelineDesc.RasterizerState.FillMode              = VK_POLYGON_MODE_FILL ? D3D12_FILL_MODE_SOLID : D3D12_FILL_MODE_WIREFRAME;
-        pipelineDesc.RasterizerState.CullMode              = VkCullModeToD3D12(pCreateInfos[i].pRasterizationState->cullMode);
-        pipelineDesc.RasterizerState.FrontCounterClockwise = pCreateInfos[i].pRasterizationState->frontFace == VK_FRONT_FACE_COUNTER_CLOCKWISE ? TRUE : FALSE;
-        pipelineDesc.RasterizerState.DepthBias;
-        pipelineDesc.RasterizerState.DepthBiasClamp       = pCreateInfos[i].pRasterizationState->depthBiasClamp;
-        pipelineDesc.RasterizerState.SlopeScaledDepthBias = pCreateInfos[i].pRasterizationState->depthBiasSlopeFactor;
-        pipelineDesc.RasterizerState.DepthClipEnable      = pCreateInfos[i].pRasterizationState->depthClampEnable ? FALSE : TRUE;
-        pipelineDesc.RasterizerState.MultisampleEnable;
-        pipelineDesc.RasterizerState.AntialiasedLineEnable;
-        pipelineDesc.RasterizerState.ForcedSampleCount;
+        pipelineDesc.RasterizerState.FillMode                       = VK_POLYGON_MODE_FILL ? D3D12_FILL_MODE_SOLID : D3D12_FILL_MODE_WIREFRAME;
+        pipelineDesc.RasterizerState.CullMode                       = VkCullModeToD3D12(pCreateInfos[i].pRasterizationState->cullMode);
+        pipelineDesc.RasterizerState.FrontCounterClockwise          = pCreateInfos[i].pRasterizationState->frontFace == VK_FRONT_FACE_COUNTER_CLOCKWISE ? TRUE : FALSE;
+        pipelineDesc.RasterizerState.DepthBias                      = static_cast<INT>(pCreateInfos[i].pRasterizationState->depthBiasClamp);
+        pipelineDesc.RasterizerState.DepthBiasClamp                 = pCreateInfos[i].pRasterizationState->depthBiasClamp;
+        pipelineDesc.RasterizerState.SlopeScaledDepthBias           = pCreateInfos[i].pRasterizationState->depthBiasSlopeFactor;
+        pipelineDesc.RasterizerState.DepthClipEnable                = pCreateInfos[i].pRasterizationState->depthClampEnable ? FALSE : TRUE;
+        pipelineDesc.RasterizerState.MultisampleEnable              = pCreateInfos[i].pMultisampleState->sampleShadingEnable;
+        pipelineDesc.RasterizerState.AntialiasedLineEnable          = pCreateInfos[i].pMultisampleState->sampleShadingEnable;
+        pipelineDesc.RasterizerState.ForcedSampleCount              = VkSampleCountFlagBitsToD3D12(pCreateInfos[i].pMultisampleState->rasterizationSamples);
         pipelineDesc.RasterizerState.ConservativeRaster             = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
         pipelineDesc.DepthStencilState.DepthEnable                  = pCreateInfos[i].pDepthStencilState->depthTestEnable;
         pipelineDesc.DepthStencilState.DepthWriteMask               = pCreateInfos[i].pDepthStencilState->depthWriteEnable ? D3D12_DEPTH_WRITE_MASK_ALL : D3D12_DEPTH_WRITE_MASK_ZERO;
@@ -131,7 +177,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateGraphicsPipelines(
         pipelineDesc.InputLayout.pInputElementDescs;
         pipelineDesc.InputLayout.NumElements;
         pipelineDesc.IBStripCutValue;
-        pipelineDesc.PrimitiveTopologyType;
+        pipelineDesc.PrimitiveTopologyType = VkPrimitiveTopologyToD3D12(pCreateInfos[i].pInputAssemblyState->topology);
         pipelineDesc.NumRenderTargets;
         pipelineDesc.RTVFormats[8];
         pipelineDesc.DSVFormat;
