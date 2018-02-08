@@ -30,6 +30,28 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateQueryPool(
         queryPool = new VkQueryPool_T();
     }
 
+    D3D12_QUERY_HEAP_DESC queryHeapDesc = {};
+    queryHeapDesc.Count                 = pCreateInfo->queryCount;
+    queryHeapDesc.NodeMask              = device->physicalDevice->index;
+
+    switch (pCreateInfo->queryType)
+    {
+    case VK_QUERY_TYPE_OCCLUSION:
+        queryHeapDesc.Type = D3D12_QUERY_HEAP_TYPE_OCCLUSION;
+    case VK_QUERY_TYPE_PIPELINE_STATISTICS:
+        queryHeapDesc.Type = D3D12_QUERY_HEAP_TYPE_PIPELINE_STATISTICS;
+    case VK_QUERY_TYPE_TIMESTAMP:
+        queryHeapDesc.Type = D3D12_QUERY_HEAP_TYPE_TIMESTAMP;
+    default:
+        break;
+    }
+
+    HRESULT hr = device->device->CreateQueryHeap(&queryHeapDesc, IID_PPV_ARGS(queryPool->queryHeap.GetAddressOf()));
+    if (FAILED(hr))
+    {
+        return VkResultFromHRESULT(hr);
+    }
+
     *pQueryPool = queryPool;
 
     return VK_SUCCESS;

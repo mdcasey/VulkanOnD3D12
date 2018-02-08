@@ -139,6 +139,7 @@ struct VkEvent_T
 
 struct VkQueryPool_T
 {
+    ComPtr<ID3D12QueryHeap> queryHeap;
 };
 
 struct VkBufferView_T
