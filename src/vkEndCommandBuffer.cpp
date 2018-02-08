@@ -17,5 +17,11 @@
 VKAPI_ATTR VkResult VKAPI_CALL vkEndCommandBuffer(
     VkCommandBuffer commandBuffer)
 {
+    HRESULT hr = static_cast<ID3D12GraphicsCommandList*>(commandBuffer->commandList.Get())->Close();
+    if (FAILED(hr))
+    {
+        return VkResultFromHRESULT(hr);
+    }
+
     return VK_SUCCESS;
 }
