@@ -1987,7 +1987,11 @@ static VkShaderModule demo_prepare_vs(struct demo *demo) {
     void *vertShaderCode;
     size_t size;
 
+#if defined(VK_USE_PLATFORM_WIN32_KHR) || defined(VK_USE_PLATFORM_UWP_CHB)
+    vertShaderCode = demo_read_spv("cube-vert.cso", &size);
+#else
     vertShaderCode = demo_read_spv("cube-vert.spv", &size);
+#endif
     if (!vertShaderCode) {
         ERR_EXIT("Failed to load cube-vert.spv", "Load Shader Failure");
     }
@@ -2015,7 +2019,11 @@ static VkShaderModule demo_prepare_fs(struct demo *demo) {
     void *fragShaderCode;
     size_t size;
 
+#if defined(VK_USE_PLATFORM_WIN32_KHR) || defined(VK_USE_PLATFORM_UWP_CHB)
+    fragShaderCode = demo_read_spv("cube-frag.cso", &size);
+#else
     fragShaderCode = demo_read_spv("cube-frag.spv", &size);
+#endif
     if (!fragShaderCode) {
         ERR_EXIT("Failed to load cube-frag.spv", "Load Shader Failure");
     }

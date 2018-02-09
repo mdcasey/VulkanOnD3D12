@@ -12,8 +12,12 @@ target_link_libraries(cube VulkanOnD3D12)
 
 add_custom_command(TARGET cube POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/cube-frag.spv ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/\$\(Configuration\)/cube-frag.spv)
 add_custom_command(TARGET cube POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/cube-vert.spv ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/\$\(Configuration\)/cube-vert.spv)
+add_custom_command(TARGET cube POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/cube-frag.cso ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/\$\(Configuration\)/cube-frag.cso)
+add_custom_command(TARGET cube POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/cube-vert.cso ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/\$\(Configuration\)/cube-vert.cso)
 add_custom_command(TARGET cube POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/lunarg.ppm ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/\$\(Configuration\)/lunarg.ppm)
 
 add_custom_command(TARGET cube POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/cube-frag.spv ${CMAKE_CURRENT_BINARY_DIR}/cube-frag.spv)
 add_custom_command(TARGET cube POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/cube-vert.spv ${CMAKE_CURRENT_BINARY_DIR}/cube-vert.spv)
+add_custom_command(TARGET cube POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/cube-frag.cso ${CMAKE_CURRENT_BINARY_DIR}/cube-frag.cso)
+add_custom_command(TARGET cube POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/cube-vert.cso ${CMAKE_CURRENT_BINARY_DIR}/cube-vert.cso)
 add_custom_command(TARGET cube POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/lunarg.ppm ${CMAKE_CURRENT_BINARY_DIR}/lunarg.ppm)
