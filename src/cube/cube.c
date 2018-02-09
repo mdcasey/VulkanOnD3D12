@@ -54,7 +54,6 @@
 #include <vulkan/vulkan.h>
 #endif
 
-//#include <vulkan/vk_sdk_platform.h>
 #include "linmath.h"
 
 #include "gettime.h"
