@@ -107,13 +107,11 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateShaderModule(
             return VkResultFromHRESULT(hr);
         }
 
-        shaderModule->bytecode.BytecodeLength  = shaderBlob->GetBufferSize();
-        shaderModule->bytecode.pShaderBytecode = shaderBlob->GetBufferPointer();
+        shaderModule->bytecode = CD3DX12_SHADER_BYTECODE(shaderBlob.Get());
     }
     else
     {
-        shaderModule->bytecode.BytecodeLength  = pCreateInfo->codeSize;
-        shaderModule->bytecode.pShaderBytecode = pCreateInfo->pCode;
+        shaderModule->bytecode = CD3DX12_SHADER_BYTECODE(pCreateInfo->pCode, pCreateInfo->codeSize);
     }
 
     *pShaderModule = shaderModule;
