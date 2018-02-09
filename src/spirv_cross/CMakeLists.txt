@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-add_definitions("/DUNICODE /D_UNICODE /W4 /WX /wd4146 /wd4245 /wd4702 /wd4706")
+add_definitions("/D_CRT_SECURE_NO_WARNINGS /D_USE_MATH_DEFINES /wd4146")
 
 file(GLOB HEADERS *.h)
 file(GLOB SOURCES *.cpp)
