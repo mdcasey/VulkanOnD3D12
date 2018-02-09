@@ -51,23 +51,17 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateDevice(
         return VkResultFromHRESULT(hr);
     }
 
-    D3D12_FEATURE_DATA_D3D12_OPTIONS dataOptions = {};
-    D3D12_FEATURE_DATA_ROOT_SIGNATURE dataRootSignature = {};
-
-    hr = device->device->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS, &dataOptions, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS));
+    hr = device->device->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS, &device->dataOptions, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS));
     if (FAILED(hr))
     {
         return VkResultFromHRESULT(hr);
     }
 
-    hr = device->device->CheckFeatureSupport(D3D12_FEATURE_ROOT_SIGNATURE, &dataRootSignature, sizeof(D3D12_FEATURE_DATA_ROOT_SIGNATURE));
+    hr = device->device->CheckFeatureSupport(D3D12_FEATURE_ROOT_SIGNATURE, &device->dataRootSignature, sizeof(D3D12_FEATURE_DATA_ROOT_SIGNATURE));
     if (FAILED(hr))
     {
-        return VkResultFromHRESULT(hr);
+        device->dataRootSignature.HighestVersion = D3D_ROOT_SIGNATURE_VERSION_1_0;
     }
-
-    device->dataOptions = dataOptions;
-    device->dataRootSignature = dataRootSignature;
 
     for (uint32_t i = 0; i < pCreateInfo->queueCreateInfoCount; ++i)
     {
