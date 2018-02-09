@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1)
 
 add_definitions("/D_CRT_SECURE_NO_WARNINGS /D_USE_MATH_DEFINES")
 if(${CMAKE_SYSTEM_NAME} STREQUAL Windows)

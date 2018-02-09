@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1)
 
 add_definitions("/DUNICODE /D_UNICODE /D_CRT_SECURE_NO_WARNINGS /wd4133")
 if(${CMAKE_SYSTEM_NAME} STREQUAL Windows)
